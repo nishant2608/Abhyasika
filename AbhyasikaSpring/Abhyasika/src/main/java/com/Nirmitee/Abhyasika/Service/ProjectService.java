@@ -1,8 +1,6 @@
 package com.Nirmitee.Abhyasika.Service;
 
-import com.Nirmitee.Abhyasika.Model.Chapter;
-import com.Nirmitee.Abhyasika.Model.Project;
-import com.Nirmitee.Abhyasika.Model.Topic;
+import com.Nirmitee.Abhyasika.Model.*;
 import com.Nirmitee.Abhyasika.Repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +19,17 @@ public class ProjectService {
        return projectRepository.findAll();
     }
 
+    public List<ProjectDTO> getAllProjectList(){
+        List<ProjectDTO> projectList = new ArrayList<>();
+        List<Project> projects= projectRepository.findAll();
+        for(Project project : projects){
+            ProjectDTO dto = new ProjectDTO(project.getPid(),project.getName());
+            projectList.add(dto);
+        }
+        return projectList;
+
+    }
+
     public Optional<Project> getProjectById(String Id){
         return projectRepository.findById(Id);
     }
@@ -28,6 +37,20 @@ public class ProjectService {
     public List<Chapter> getChaptersByProjectId(String projectId) {
         Optional<Project> project = projectRepository.findById(projectId);
         return project.map(Project::getChapters).orElse(null);
+    }
+
+    public List<ChapterDTO> getChapterList(String projectId){
+        List<ChapterDTO> chapterList = new ArrayList<>();
+        Optional<Project> project = projectRepository.findById(projectId);
+        if(project.isPresent()){
+            List<Chapter> chapters = project.get().getChapters();
+            for(Chapter chapter : chapters){
+                ChapterDTO dto = new ChapterDTO(chapter.getCid(),chapter.getName());
+                chapterList.add(dto);
+            }
+            return chapterList;
+        }
+        return null;
     }
 
     public Chapter getChapterById(String projectId, String chapterId){
@@ -55,6 +78,24 @@ public class ProjectService {
             }
         }
         return null; // or throw an exception, or return an empty list
+    }
+
+    public List<TopicDTO> getTopicList(String projectId, String chapterId){
+        List<TopicDTO> topicList = new ArrayList<>();
+        Optional<Project> project = projectRepository.findById(projectId);
+        if(project.isPresent()){
+            List<Chapter> chapterList = project.get().getChapters();
+            for (Chapter chapter : chapterList) {
+                if (chapter.getCid().equals(chapterId)) {
+                    List<Topic> topics  =chapter.getTopics();
+                    for(Topic topic : topics){
+                        topicList.add(new TopicDTO(topic.getTid(),topic.getName()));
+                    }
+                    return topicList;
+                }
+            }
+        }
+        return null;
     }
 
     public Topic getTopicById(String projectId, String chapterId,String topicId){

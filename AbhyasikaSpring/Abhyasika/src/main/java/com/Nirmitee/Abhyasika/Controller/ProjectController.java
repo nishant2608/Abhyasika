@@ -1,8 +1,6 @@
 package com.Nirmitee.Abhyasika.Controller;
 
-import com.Nirmitee.Abhyasika.Model.Chapter;
-import com.Nirmitee.Abhyasika.Model.Project;
-import com.Nirmitee.Abhyasika.Model.Topic;
+import com.Nirmitee.Abhyasika.Model.*;
 import com.Nirmitee.Abhyasika.Service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +19,21 @@ public class ProjectController {
     @GetMapping("/project")
     public List<Project> getAllProjects(){
         return projectService.getAllProjects();
+    }
+
+    @GetMapping("/list/project")
+    public List<ProjectDTO> getAllProjectList(){
+        return projectService.getAllProjectList();
+    }
+
+    @GetMapping("/list/project/{pid}/chapters")
+    public List<ChapterDTO> getAllChapterList(@PathVariable String pid){
+        return projectService.getChapterList(pid);
+    }
+
+    @GetMapping("/list/project/{pid}/chapters/{cid}/topics")
+    public List<TopicDTO> getAllTopicList(@PathVariable String pid, @PathVariable String cid){
+        return projectService.getTopicList(pid,cid);
     }
 
     @GetMapping("/project/{pid}")
