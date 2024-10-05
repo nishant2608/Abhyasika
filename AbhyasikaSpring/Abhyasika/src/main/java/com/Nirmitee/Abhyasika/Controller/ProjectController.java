@@ -2,6 +2,8 @@ package com.Nirmitee.Abhyasika.Controller;
 
 import com.Nirmitee.Abhyasika.Model.*;
 import com.Nirmitee.Abhyasika.Service.ProjectService;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,13 @@ public class ProjectController {
     @GetMapping("/list/project")
     public List<ProjectDTO> getAllProjectList(){
         return projectService.getAllProjectList();
+    }
+
+    @GetMapping("/user/project")
+    public List<ProjectDTO> getProjectsByUser(HttpServletRequest request){
+        String authtoken = request.getHeader("Authorization");
+        String token = authtoken.substring(7);
+        return projectService.getProjectsByUser(token);
     }
 
     @GetMapping("/list/project/{pid}/chapters")

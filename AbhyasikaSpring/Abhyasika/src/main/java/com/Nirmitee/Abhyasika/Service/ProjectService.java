@@ -2,6 +2,7 @@ package com.Nirmitee.Abhyasika.Service;
 
 import com.Nirmitee.Abhyasika.Model.*;
 import com.Nirmitee.Abhyasika.Repository.ProjectRepository;
+import com.Nirmitee.Abhyasika.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,12 @@ import java.util.UUID;
 public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private JWTService jwtService;
 
     public List<Project> getAllProjects(){
        return projectRepository.findAll();
@@ -28,6 +35,16 @@ public class ProjectService {
         }
         return projectList;
 
+    }
+
+    public List<ProjectDTO> getProjectsByUser(String token){
+        List<ProjectDTO> projectList = new ArrayList<>();
+        String username = jwtService.extractUsername(token);
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        if(user!=null){
+            return user.getProjectList();
+        }
+        return null;
     }
 
     public Optional<Project> getProjectById(String Id){
