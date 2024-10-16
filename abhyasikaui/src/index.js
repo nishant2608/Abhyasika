@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { AppBar, Typography } from '@mui/material';
 import './index.css';
 import App from './App';
 import Login from './Login';
+import Projects from './ProjectList';
 import reportWebVitals from './reportWebVitals';
+import Avatar from '@mui/material/Avatar';
+import { lime, purple } from '@mui/material/colors';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -11,6 +16,18 @@ import {
   Route
 } from "react-router-dom";
 import Register from './Register';
+import ProjectDetail from './ProjectDetails';
+import TopicList from './TopicList'
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#303030'
+    },
+    secondary: purple,
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -22,15 +39,39 @@ const router = createBrowserRouter([
     element: <Login />
   },
   {
-    path:"register",
+    path: "register",
     element: <Register />
+  },
+  {
+    path: "projects",
+    element: <Projects />
+  },
+  {
+    path: "projects/:id",
+    element: <ProjectDetail />
+  },
+  {
+    path:"projects/:id/:cid",
+    element:<TopicList />
   }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <div className='Main'>
+      <ThemeProvider theme={theme}>
+      <AppBar position='static' color='primary' >
+        <div className='AppBar'>
+        <Typography variant='h4' className='Title'>
+          Abhyasika
+        </Typography>
+        <Avatar className='right'>H</Avatar>
+        </div>
+      </AppBar>
+      </ThemeProvider>
+      <RouterProvider router={router} />
+    </div>
   </React.StrictMode>
 );
 

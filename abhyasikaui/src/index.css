@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.Title{
+  padding-left: 25px;
+  width: fit-content;
+}
+
+.AppBar{
+  display: flex;
+}
+
+.right{
+  margin-left: auto;
+  margin-right: 10px ;
+}
