@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Typography, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import '@fontsource/roboto/400.css';
 
 const TopicList = () => {
   const { id ,cid} = useParams();
   const [project, setProject] = useState(null);
   const [chapter,setChapter] = useState(null);
+  const navigate = useNavigate();
 
   const handleClick = (topic) => {
-    alert(`Clicked on ${topic.name} (ID: ${topic._id})`);
-    // const projectpath = '/projects/' + project._id.$oid;
-    // navigate(projectpath);
+    // alert(`Clicked on ${topic.name} (ID: ${topic._id})`);
+    const topicPath = '/projects/' + project._id.$oid +'/' + chapter._id + '/' + topic._id;
+    navigate(topicPath);
   };
 
   useEffect(() => {

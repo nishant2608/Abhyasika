@@ -18,6 +18,7 @@ import {
 import Register from './Register';
 import ProjectDetail from './ProjectDetails';
 import TopicList from './TopicList'
+import TopicView from './TopicView';
 
 
 const theme = createTheme({
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path:"projects/:id/:cid",
     element:<TopicList />
+  },
+  {
+    path:"projects/:id/:cid/:tid",
+    element:<TopicView />
   }
 ]);
 
