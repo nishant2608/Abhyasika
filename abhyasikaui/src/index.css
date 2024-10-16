@@ -19,6 +19,7 @@ code {
 
 .AppBar{
   display: flex;
+  color: rgb(210, 210, 58);
 }
 
 .right{

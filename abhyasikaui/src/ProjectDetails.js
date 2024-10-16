@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { Container, Typography, List, ListItem, ListItemButton, ListItemText, ListItemIcon } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import '@fontsource/roboto/400.css';
+import FolderIcon from '@mui/icons-material/Folder';
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -39,6 +40,9 @@ const ProjectDetail = () => {
         {project.chapters.map((chapter, index) => (
           <ListItem key={chapter._id} className="listItem">
           <ListItemButton onClick={() => handleClick(chapter)}>
+            <ListItemIcon>
+              <FolderIcon color='success'/>
+            </ListItemIcon>
             <ListItemText 
               primary={<span style={{color:'#ececec'}}>{chapter.name}</span>} 
               secondary={<span className="projectId">ID: {chapter._id}</span>} 

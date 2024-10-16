@@ -12,6 +12,9 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import ArticleIcon from '@mui/icons-material/Article';
 import { Typography } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
+import './TopicView.css'
+import Paper from '@mui/material/Paper';
+
 
 const TopicView = () => {
     const { id, cid, tid } = useParams();
@@ -31,6 +34,9 @@ const TopicView = () => {
             .then((p) => {
                 const foundChapter = p.chapters.find((c) => c._id === cid);
                 setChapter(foundChapter);
+                setOpenChapters((prev)=>({
+                    ...prev, [foundChapter._id]:true
+                }))
                 return foundChapter;
             })
             .then((c) => {
@@ -54,10 +60,11 @@ const TopicView = () => {
     return (
         <div className='page'>
             <div className='topicview'>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                <div className='menuList'>
+                <List sx={{ width: '100%', maxWidth: 360, bgcolor: '#131314',color:'#ececec'}}
                     component="nav"
                     aria-labelledby="nested-list-subheader"
-                    subheader={<ListSubheader component="div" id="nested-list-subheader">
+                    subheader={<ListSubheader component="div" id="nested-list-subheader" >
                         {project.name}
                     </ListSubheader>}
                 >
@@ -65,19 +72,19 @@ const TopicView = () => {
                         <div>
                         <ListItemButton onClick={()=>handleToggle(chapter._id)}>
                             <ListItemIcon>
-                                <FolderIcon />
+                                <FolderIcon color='success'/>
                             </ListItemIcon>
                             <ListItemText primary={chapter.name} />
                             {openChapters[chapter._id] ? <ExpandLess /> : <ExpandMore />}
                         </ListItemButton>
                          <Collapse in={openChapters[chapter._id]} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
-                                {chapter.topics.map((topic,index2)=>(
-                                    <ListItemButton onClick={()=>setTopic(topic)}>
+                                {chapter.topics.map((t,index2)=>(
+                                    <ListItemButton  onClick={()=>setTopic(t)} style={{ backgroundColor: t._id === topic._id ? '#a7b7af' : 'inherit' }}>
                                         <ListItemIcon>
-                                            <ArticleIcon />
+                                            <ArticleIcon color='success'/>
                                         </ListItemIcon>
-                                        <ListItemText primary={topic.name} />
+                                        <ListItemText primary={t.name} />
                                     </ListItemButton>
                                 ))}
                             </List>
@@ -86,6 +93,19 @@ const TopicView = () => {
                      ))}   
 
                 </List>
+                </div>
+                <div className='content'>
+                    <Paper elevation={3} sx={{minHeight:'100%', backgroundColor:'#343437', color:'#ececec'}}>
+                        <div className='topic-content'>
+                            <div className='topic-name'>
+                            <Typography variant="h5" color='secondary'>{topic.name}</Typography>
+                            </div>
+                            <div className='information'>
+                                {topic.content}
+                            </div>
+                        </div>
+                    </Paper>
+                </div>
             </div>
         </div>
     )

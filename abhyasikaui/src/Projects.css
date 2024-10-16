@@ -20,3 +20,8 @@
   .projectId {
     color: #888;
   }
+
+  .MuiListSubheader-root{
+    background-color: inherit !important ;
+    color:#ececec !important;
+  }

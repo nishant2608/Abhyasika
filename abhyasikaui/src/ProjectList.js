@@ -1,11 +1,12 @@
 // src/Projects.js
 
 import React, { useEffect, useState } from 'react';
-import { Container, List, ListItem, ListItemText, ListItemButton } from '@mui/material';
+import { Container, List, ListItem, ListItemText, ListItemButton, ListItemIcon } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './Projects.css'; // Import your CSS file
 import './Page.css';
 import '@fontsource/roboto/400.css';
+import AppsIcon from '@mui/icons-material/Apps';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -32,6 +33,9 @@ const Projects = () => {
         {projects.map((project) => (
           <ListItem key={project.id} className="listItem">
             <ListItemButton onClick={() => handleClick(project)}>
+              <ListItemIcon>
+                <AppsIcon color='success'/>
+              </ListItemIcon>
               <ListItemText 
                 primary={<span style={{color:'#ececec'}}>{project.name}</span>} 
                 secondary={<span className="projectId">ID: {project._id.$oid}</span>} 

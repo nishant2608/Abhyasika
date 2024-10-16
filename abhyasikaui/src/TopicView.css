@@ -1,0 +1,16 @@
+.topicview{
+    min-height:100vh;
+    display: flex;
+}
+
+.menuList{
+    min-width: 300px;
+    max-width: 360px;
+    min-height: 100vh;
+    border-right: 1px solid #4e4646;
+}
+
+.content{
+    flex-grow: 1;
+    padding: 10px;
+}

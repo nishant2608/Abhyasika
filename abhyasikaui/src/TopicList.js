@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { Container, Typography, List, ListItem, ListItemButton, ListItemText, ListItemIcon } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import ArticleIcon from '@mui/icons-material/Article';
 import '@fontsource/roboto/400.css';
 
 const TopicList = () => {
@@ -44,6 +45,9 @@ const TopicList = () => {
         {chapter.topics.map((topic, index) => (
           <ListItem key={topic._id} className="listItem">
           <ListItemButton onClick={() => handleClick(topic)}>
+            <ListItemIcon>
+              <ArticleIcon color='success'/>
+            </ListItemIcon>
             <ListItemText 
               primary={<span style={{color:'#ececec'}}>{topic.name}</span>} 
               secondary={<span className="projectId">ID: {topic._id}</span>} 
