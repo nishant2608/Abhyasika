@@ -23,24 +23,36 @@ const TopicView = () => {
     const [topic, setTopic] = useState(null);
     const [openChapters, setOpenChapters] = useState({});
 
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
     useEffect(() => {
-        fetch('/demoTopic.project.json')
+        const jwtToken = getCookie('jwtToken');
+        const url = 'http://localhost:8080/api/v1/project/' + id;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${jwtToken}`
+            }
+        })
             .then((response) => response.json())
             .then((data) => {
-                const foundProject = data.find((p) => p._id.$oid === id);
-                setProject(foundProject);
-                return foundProject;
+                setProject(data);
+                return data;
             })
             .then((p) => {
-                const foundChapter = p.chapters.find((c) => c._id === cid);
+                const foundChapter = p.chapters.find((c) => c.cid === cid);
                 setChapter(foundChapter);
-                setOpenChapters((prev)=>({
-                    ...prev, [foundChapter._id]:true
+                setOpenChapters((prev) => ({
+                    ...prev, [foundChapter.cid]: true
                 }))
                 return foundChapter;
             })
             .then((c) => {
-                const foundTopic = c.topics.find((t) => t._id === tid);
+                const foundTopic = c.topics.find((t) => t.tid === tid);
                 setTopic(foundTopic);
             })
             .catch((error) => console.error('Error fetching project:', error));
@@ -48,10 +60,10 @@ const TopicView = () => {
 
     const handleToggle = (cid) => {
         setOpenChapters((prev) => ({
-          ...prev,
-          [cid]: !prev[cid],
+            ...prev,
+            [cid]: !prev[cid],
         }));
-      }
+    }
 
     if (!project || !chapter) {
         return <Typography variant="h6">Loading...</Typography>;
@@ -61,44 +73,44 @@ const TopicView = () => {
         <div className='page'>
             <div className='topicview'>
                 <div className='menuList'>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: '#131314',color:'#ececec'}}
-                    component="nav"
-                    aria-labelledby="nested-list-subheader"
-                    subheader={<ListSubheader component="div" id="nested-list-subheader" >
-                        {project.name}
-                    </ListSubheader>}
-                >
-                     {project.chapters.map((chapter,index1)=>(
-                        <div>
-                        <ListItemButton onClick={()=>handleToggle(chapter._id)}>
-                            <ListItemIcon>
-                                <FolderIcon color='success'/>
-                            </ListItemIcon>
-                            <ListItemText primary={chapter.name} />
-                            {openChapters[chapter._id] ? <ExpandLess /> : <ExpandMore />}
-                        </ListItemButton>
-                         <Collapse in={openChapters[chapter._id]} timeout="auto" unmountOnExit>
-                            <List component="div" disablePadding>
-                                {chapter.topics.map((t,index2)=>(
-                                    <ListItemButton  onClick={()=>setTopic(t)} style={{ backgroundColor: t._id === topic._id ? '#a7b7af' : 'inherit' }}>
-                                        <ListItemIcon>
-                                            <ArticleIcon color='success'/>
-                                        </ListItemIcon>
-                                        <ListItemText primary={t.name} />
-                                    </ListItemButton>
-                                ))}
-                            </List>
-                         </Collapse>
-                         </div>
-                     ))}   
+                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: '#131314', color: '#ececec' }}
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
+                        subheader={<ListSubheader component="div" id="nested-list-subheader" >
+                            {project.name}
+                        </ListSubheader>}
+                    >
+                        {project.chapters.map((chapter, index1) => (
+                            <div>
+                                <ListItemButton onClick={() => handleToggle(chapter.cid)}>
+                                    <ListItemIcon>
+                                        <FolderIcon color='success' />
+                                    </ListItemIcon>
+                                    <ListItemText primary={chapter.name} />
+                                    {openChapters[chapter.cid] ? <ExpandLess /> : <ExpandMore />}
+                                </ListItemButton>
+                                <Collapse in={openChapters[chapter.cid]} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding>
+                                        {chapter.topics.map((t, index2) => (
+                                            <ListItemButton onClick={() => setTopic(t)} style={{ backgroundColor: t.tid === topic.tid ? '#a7b7af' : 'inherit' }}>
+                                                <ListItemIcon>
+                                                    <ArticleIcon color='success' />
+                                                </ListItemIcon>
+                                                <ListItemText primary={t.name} />
+                                            </ListItemButton>
+                                        ))}
+                                    </List>
+                                </Collapse>
+                            </div>
+                        ))}
 
-                </List>
+                    </List>
                 </div>
                 <div className='content'>
-                    <Paper elevation={3} sx={{minHeight:'100%', backgroundColor:'#343437', color:'#ececec'}}>
+                    <Paper elevation={3} sx={{ minHeight: '100%', backgroundColor: '#343437', color: '#ececec' }}>
                         <div className='topic-content'>
                             <div className='topic-name'>
-                            <Typography variant="h5" color='secondary'>{topic.name}</Typography>
+                                <Typography variant="h5" color='secondary'>{topic.name}</Typography>
                             </div>
                             <div className='information'>
                                 {topic.content}

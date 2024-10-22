@@ -13,19 +13,31 @@ const TopicList = () => {
 
   const handleClick = (topic) => {
     // alert(`Clicked on ${topic.name} (ID: ${topic._id})`);
-    const topicPath = '/projects/' + project._id.$oid +'/' + chapter._id + '/' + topic._id;
+    const topicPath = '/projects/' + project.pid +'/' + chapter.cid + '/' + topic.tid;
     navigate(topicPath);
   };
 
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+};
+
   useEffect(() => {
-    fetch('/demoTopic.project.json')
+    const jwtToken = getCookie('jwtToken');
+    const url = 'http://localhost:8080/api/v1/project/' + id;
+        fetch(url,{
+            method:'GET',
+            headers: {
+                Authorization: `Bearer ${jwtToken}`
+            }
+        })
       .then((response) => response.json())
       .then((data) => {
-        const foundProject = data.find((p) => p._id.$oid=== id);
-        setProject(foundProject);
-        return foundProject;
+        setProject(data);
+        return data;
       }).then((p)=>{
-        const foundChapter = p.chapters.find((c)=>c._id===cid);
+        const foundChapter = p.chapters.find((c)=>c.cid===cid);
         setChapter(foundChapter);
       })
       .catch((error) => console.error('Error fetching project:', error));
@@ -43,14 +55,14 @@ const TopicList = () => {
       <Typography variant="h5" color='secondary'>Topics</Typography>
       <List>
         {chapter.topics.map((topic, index) => (
-          <ListItem key={topic._id} className="listItem">
+          <ListItem key={topic.tid} className="listItem">
           <ListItemButton onClick={() => handleClick(topic)}>
             <ListItemIcon>
               <ArticleIcon color='success'/>
             </ListItemIcon>
             <ListItemText 
               primary={<span style={{color:'#ececec'}}>{topic.name}</span>} 
-              secondary={<span className="projectId">ID: {topic._id}</span>} 
+              secondary={<span className="projectId">ID: {topic.tid}</span>} 
             />
           </ListItemButton>
         </ListItem>
