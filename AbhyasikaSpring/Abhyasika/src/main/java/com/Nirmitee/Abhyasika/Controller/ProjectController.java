@@ -2,6 +2,7 @@ package com.Nirmitee.Abhyasika.Controller;
 
 import com.Nirmitee.Abhyasika.Model.*;
 import com.Nirmitee.Abhyasika.Service.ProjectService;
+import com.Nirmitee.Abhyasika.Service.UserService;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/project")
     public List<Project> getAllProjects(){
@@ -72,8 +76,11 @@ public class ProjectController {
     }
 
     @PostMapping("/project")
-    public ResponseEntity<Project> createProject(@RequestBody Project project) {
+    public ResponseEntity<Project> createProject(@RequestBody Project project, HttpServletRequest request) {
+        String authtoken = request.getHeader("Authorization");
+        String token = authtoken.substring(7);
         Project createdProject = projectService.createProject(project);
+        AbhyasikaUser createdUser = userService.addProjectToUser(project, token);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProject);
     }
 

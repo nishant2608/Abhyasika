@@ -1,6 +1,8 @@
 package com.Nirmitee.Abhyasika.Service;
 
 import com.Nirmitee.Abhyasika.Model.AbhyasikaUser;
+import com.Nirmitee.Abhyasika.Model.Project;
+import com.Nirmitee.Abhyasika.Model.ProjectDTO;
 import com.Nirmitee.Abhyasika.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,6 +10,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -33,5 +38,17 @@ public class UserService {
             return jwtService.generateToken(user.getUsername());
         }
         return "Failure";
+    }
+
+    public AbhyasikaUser addProjectToUser(Project project, String token) {
+        String username = jwtService.extractUsername(token);
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        if(user.getProjectList()==null){
+            user.setProjectList(new ArrayList<>());
+        }
+        ProjectDTO projectDTO = new ProjectDTO(project.getPid(), project.getName());
+        user.getProjectList().add(projectDTO);
+        userRepository.save(user);
+        return user;
     }
 }
