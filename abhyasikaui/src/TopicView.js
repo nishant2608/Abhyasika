@@ -90,7 +90,7 @@ const TopicView = () => {
                                     {openChapters[chapter.cid] ? <ExpandLess /> : <ExpandMore />}
                                 </ListItemButton>
                                 <Collapse in={openChapters[chapter.cid]} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
+                                    {chapter.topics!==null&&(<List component="div" disablePadding>
                                         {chapter.topics.map((t, index2) => (
                                             <ListItemButton onClick={() => setTopic(t)} style={{ backgroundColor: t.tid === topic.tid ? '#a7b7af' : 'inherit' }}>
                                                 <ListItemIcon>
@@ -99,7 +99,7 @@ const TopicView = () => {
                                                 <ListItemText primary={t.name} />
                                             </ListItemButton>
                                         ))}
-                                    </List>
+                                    </List>)}
                                 </Collapse>
                             </div>
                         ))}
