@@ -34,7 +34,16 @@ public class ProjectService {
             projectList.add(dto);
         }
         return projectList;
+    }
 
+    public List<ProjectDTO> searchProjectsByName(String query) {
+        List<ProjectDTO> projectList = new ArrayList<>();
+        List<Project> projects = projectRepository.findByNameContaining(query);
+        for(Project project : projects){
+            ProjectDTO dto = new ProjectDTO(project.getPid(),project.getName());
+            projectList.add(dto);
+        }
+        return projectList;
     }
 
     public List<ProjectDTO> getProjectsByUser(String token){
@@ -187,4 +196,33 @@ public class ProjectService {
         }
         return null; // or throw an exception
     }
+
+    public Topic updateTopicInChapter(String projectId, String chapterId, String topicId, Topic topic) {
+        Optional<Project> project = projectRepository.findById(projectId);
+        topic.setTid(String.valueOf(UUID.randomUUID()));
+        if (project.isPresent()) {
+            List<Chapter> chapters = project.get().getChapters();
+            if(chapters!=null){
+                for (Chapter chapter : chapters) {
+                    if (chapter.getCid().equals(chapterId)) {
+                        List<Topic> topics = chapter.getTopics();
+                        if(topics!=null){
+                            for(Topic topica :topics){
+                                if(topica.getTid().equals(topicId)){
+                                    topica.setName(topic.getName());
+                                    topica.setContent(topic.getContent());
+                                    projectRepository.save(project.get());
+                                    return topic;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+
+        }
+        return null; // or throw an exception
+    }
+
 }

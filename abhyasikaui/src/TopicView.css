@@ -13,4 +13,6 @@
 .content{
     flex-grow: 1;
     padding: 10px;
+    background-color: #343437;
+    color: #ececec;
 }

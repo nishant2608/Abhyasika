@@ -29,8 +29,12 @@ public class ProjectController {
     }
 
     @GetMapping("/list/project")
-    public List<ProjectDTO> getAllProjectList(){
-        return projectService.getAllProjectList();
+    public List<ProjectDTO> getAllProjectList(@RequestParam(required = false) String name){
+        if (name != null && !name.isEmpty()) {
+            return projectService.searchProjectsByName(name);
+        } else {
+            return projectService.getAllProjectList(); 
+        }
     }
 
     @GetMapping("/user/project")

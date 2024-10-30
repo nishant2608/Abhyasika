@@ -14,6 +14,7 @@ import { Typography } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import './TopicView.css'
 import Paper from '@mui/material/Paper';
+import TextEditor from './TextEditor';
 
 
 const TopicView = () => {
@@ -65,6 +66,11 @@ const TopicView = () => {
         }));
     }
 
+    const handleChange = (chapter,t) =>{
+        setTopic(t);
+        setChapter(chapter);
+    }
+
     if (!project || !chapter) {
         return <Typography variant="h6">Loading...</Typography>;
     }
@@ -92,7 +98,7 @@ const TopicView = () => {
                                 <Collapse in={openChapters[chapter.cid]} timeout="auto" unmountOnExit>
                                     {chapter.topics!==null&&(<List component="div" disablePadding>
                                         {chapter.topics.map((t, index2) => (
-                                            <ListItemButton onClick={() => setTopic(t)} style={{ backgroundColor: t.tid === topic.tid ? '#a7b7af' : 'inherit' }}>
+                                            <ListItemButton onClick={() => {handleChange(chapter,t)}} style={{ backgroundColor: t.tid === topic.tid ? '#a7b7af' : 'inherit' }}>
                                                 <ListItemIcon>
                                                     <ArticleIcon color='success' />
                                                 </ListItemIcon>
@@ -107,7 +113,7 @@ const TopicView = () => {
                     </List>
                 </div>
                 <div className='content'>
-                    <Paper elevation={3} sx={{ minHeight: '100%', backgroundColor: '#343437', color: '#ececec' }}>
+                    {/* <Paper elevation={3} sx={{ minHeight: '100%', backgroundColor: '#343437', color: '#ececec' }}>
                         <div className='topic-content'>
                             <div className='topic-name'>
                                 <Typography variant="h5" color='secondary'>{topic.name}</Typography>
@@ -116,7 +122,8 @@ const TopicView = () => {
                                 {topic.content}
                             </div>
                         </div>
-                    </Paper>
+                    </Paper> */}
+                    <TextEditor topic={topic} pid={project.pid} cid = {chapter.cid} />
                 </div>
             </div>
         </div>
