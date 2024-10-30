@@ -25,3 +25,12 @@
     background-color: inherit !important ;
     color:#ececec !important;
   }
+
+  .searchField{
+    color: #ececec;
+    background-color: #232325;
+  }
+
+  .css-16bevx5-MuiFormControl-root-MuiTextField-root{
+    margin: 5px !important;
+  }

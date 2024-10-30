@@ -14,17 +14,19 @@ const Projects = () => {
   const [openModal, setOpenModal] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
+
     if (parts.length === 2) return parts.pop().split(';').shift();
   };
 
-  const fetchProjects = () => {
+  const fetchProjects = (query = '') => {
     const jwtToken = getCookie('jwtToken');
-    fetch('http://localhost:8080/api/v1/user/project', {
+    fetch(`http://localhost:8080/api/v1/list/project${query ? `?name=${query}` : ''}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${jwtToken}`
@@ -33,23 +35,24 @@ const Projects = () => {
       .then((response) => response.json())
       .then((data) => setProjects(data))
       .catch((error) => console.error('Error fetching projects:', error));
-  }
+  };
 
   useEffect(() => {
     fetchProjects();
   }, []);
 
-
-
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    fetchProjects(value); // Fetch projects with the search query
+  };
 
   const handleClick = (project) => {
-    // alert(`Clicked on ${project.name} (ID: ${project._id.$oid})`);
     const projectpath = '/projects/' + project.pid;
     navigate(projectpath);
   };
 
   const handleCreateProject = () => {
-    // Post to API to create a new project
     const jwtToken = getCookie('jwtToken');
     const newProject = { name: projectName };
 
@@ -63,12 +66,9 @@ const Projects = () => {
     })
       .then(response => {
         if (response.status === 201) {
-          // Optionally refresh the project list
-          // setProjects([...projects, newProject]);
           setOpenModal(false);
           fetchProjects();
         } else {
-          // Handle error
           console.error('Failed to create project');
         }
       });
@@ -81,9 +81,23 @@ const Projects = () => {
     <div className='page'>
       <Container className="container">
         <h1 className="header">Project List</h1>
-        {projects === null ? (<Typography variant="h6" style={{ color: '#ececec', textAlign: 'center' }}>
-          No projects found
-        </Typography>) :
+        <div className='searchField'>
+        <TextField
+          label="Search Projects"
+          variant="outlined"
+          fullWidth
+          color='secondary'
+          value={searchTerm}
+          onChange={handleSearch}
+          margin="normal"
+        />
+        </div>
+
+        {projects.length === 0 ? (
+          <Typography variant="h6" style={{ color: '#ececec', textAlign: 'center' }}>
+            No projects found
+          </Typography>
+        ) : (
           <List>
             {projects.map((project) => (
               <ListItem key={project.pid} className="listItem">
@@ -98,8 +112,8 @@ const Projects = () => {
                 </ListItemButton>
               </ListItem>
             ))}
-          </List>}
-
+          </List>
+        )}
 
         <IconButton
           color="primary"
