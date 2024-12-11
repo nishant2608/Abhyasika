@@ -84,7 +84,15 @@ const ProjectDetail = () => {
       <Container className='container'>
         <h1 className="header">{project.name}</h1>
         <Typography variant="body1">{project.description}</Typography>
+        <div className='project-subheader'>
         <Typography variant="h5" color='secondary'>Chapters</Typography>
+        <IconButton
+          color="primary"
+          onClick={() => setOpenModal(true)}
+        >
+          <AddIcon />
+        </IconButton>
+        </div>
         {project.chapters === null ? (<Typography variant="h6" style={{ color: '#ececec', textAlign: 'center' }}>
           No chapters found
         </Typography>) : (<List>
@@ -104,13 +112,6 @@ const ProjectDetail = () => {
         </List>)}
 
 
-        <IconButton
-          color="primary"
-          onClick={() => setOpenModal(true)}
-          style={{ position: 'fixed', bottom: 20, right: 20 }}
-        >
-          <AddIcon />
-        </IconButton>
 
         <Modal open={openModal} onClose={() => setOpenModal(false)}>
           <Box

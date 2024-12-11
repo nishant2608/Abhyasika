@@ -1,4 +1,6 @@
 .page{
     background-color: #131314;
     min-height: 100vh;
+    background-image: url('../public/background.png');
+    background-size:cover
 }

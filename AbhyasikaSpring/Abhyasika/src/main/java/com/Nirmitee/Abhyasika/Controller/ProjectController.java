@@ -112,4 +112,18 @@ public class ProjectController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("/project/{projectId}/chapters/{chapterId}/topics/{topicId}")
+    public ResponseEntity<Topic> updateTopicInChapter(
+        @PathVariable String projectId,
+        @PathVariable String chapterId,
+        @PathVariable String topicId,
+        @RequestBody Topic topic) {
+    Topic updatedTopic = projectService.updateTopicInChapter(projectId, chapterId, topicId, topic);
+    if (updatedTopic != null) {
+        return ResponseEntity.ok(updatedTopic);
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
 }

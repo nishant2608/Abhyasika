@@ -80,7 +80,17 @@ const Projects = () => {
   return (
     <div className='page'>
       <Container className="container">
-        <h1 className="header">Project List</h1>
+        <div className='project-header'>
+        <h1 >Project List</h1>
+        <IconButton
+          color="primary"
+          size="large"
+          onClick={() => setOpenModal(true)}
+          style={{ fontSize: '2rem' }} // Adjust the size as needed
+        >
+          <AddIcon fontSize="inherit" />
+        </IconButton>
+        </div>
         <div className='searchField'>
         <TextField
           label="Search Projects"
@@ -115,13 +125,6 @@ const Projects = () => {
           </List>
         )}
 
-        <IconButton
-          color="primary"
-          onClick={() => setOpenModal(true)}
-          style={{ position: 'fixed', bottom: 20, right: 20 }}
-        >
-          <AddIcon />
-        </IconButton>
 
         <Modal open={openModal} onClose={() => setOpenModal(false)}>
           <Box

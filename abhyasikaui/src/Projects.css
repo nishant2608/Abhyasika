@@ -1,11 +1,25 @@
 .container {
     padding: 20px;
+    /* background-color: #888; */
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    height: 100vh;
+    overflow: auto;
+    scrollbar-width: none;
+  }
+
+  .header{
+    text-align: center;
+    font-size: 1.5em;
+    color: #3f51b5;
   }
   
-  .header {
-    text-align: center;
+  .project-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
-    font-size: 2rem;
+    font-size: 1.5em;
     color: #3f51b5; /* Material-UI primary color */
   }
   
@@ -28,9 +42,15 @@
 
   .searchField{
     color: #ececec;
-    background-color: #232325;
+    background-color: #4e4e56;
   }
 
   .css-16bevx5-MuiFormControl-root-MuiTextField-root{
     margin: 5px !important;
+  }
+
+  .project-subheader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }

@@ -1,0 +1,30 @@
+.login-container{
+    position: absolute;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px); /* Apply blur to the background */
+    justify-content: center;
+}
+
+.login-header{
+    justify-self: center;
+}
+
+.login-box{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.css-160aji0-MuiFormControl-root-MuiTextField-root{
+    padding: 5px !important;
+}
+
+.css-8rxjax-MuiButtonBase-root-MuiButton-root{
+    margin: 15px !important;
+}
+
+.login-invalid{
+    color: red;
+    font-size: small;
+}
