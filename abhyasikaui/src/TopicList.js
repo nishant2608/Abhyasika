@@ -87,7 +87,15 @@ const TopicList = () => {
       <Container className='container'>
         <h1 className="header">{chapter.name}</h1>
         <Typography variant="body1">{chapter.description}</Typography>
+        <div className="project-subheader">
         <Typography variant="h5" color='secondary'>Topics</Typography>
+        <IconButton
+          color="primary"
+          onClick={() => setOpenModal(true)}
+        >
+          <AddIcon />
+        </IconButton>
+        </div>
         {chapter.topics === null ? (<Typography variant="h6" style={{ color: '#ececec', textAlign: 'center' }}>
           No topics found
         </Typography>) : (<List>
@@ -106,13 +114,7 @@ const TopicList = () => {
           ))}
         </List>)}
 
-        <IconButton
-          color="primary"
-          onClick={() => setOpenModal(true)}
-          style={{ position: 'fixed', bottom: 20, right: 20 }}
-        >
-          <AddIcon />
-        </IconButton>
+        
 
         <Modal open={openModal} onClose={() => setOpenModal(false)}>
           <Box
