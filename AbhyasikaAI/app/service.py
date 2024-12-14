@@ -1,26 +1,44 @@
 # app/service.py
 import os
 from openai import OpenAI
+from pydantic import BaseModel
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
 )
 
-def process_data(data):
+class QuestionFormat(BaseModel):
+    question: str
+    options: list[str]
+    answer: str
+
+class QuizFormat(BaseModel):
+    questions: list[QuestionFormat]
+
+def process_content(data):
     # Implement your business logic here
     if data.get("messages"):
-        message = data.get("messages")[0].get("content")
+        message = data.get("messages")
         chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": message,
-                }
-            ],
-            model="gpt-4o-mini",
+            messages=message,
+            model=data.get("model"),
+            temperature=data.get("temperature"),
         )
-        print(chat_completion)
         return {"response":chat_completion.choices[0].message.content}
     else:
         return {"response":"No messages found"}
+    
+def process_quiz(data):
+    # Implement your business logic here
+    if data.get("messages"):
+        quiz = data.get("messages")
+        quiz_completion = client.beta.chat.completions.parse(
+            messages=quiz,
+            model=data.get("model"),
+            temperature=data.get("temperature"),
+            response_format=QuizFormat,
+        )
+        return quiz_completion.choices[0].message.content
+    else:
+        return {"response":"No quiz found"}
     
