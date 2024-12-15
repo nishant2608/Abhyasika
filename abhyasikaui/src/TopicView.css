@@ -10,9 +10,24 @@
     border-right: 1px solid #4e4646;
 }
 
+.topicScreen{
+    flex:1;
+}
+
 .content{
     flex-grow: 1;
     padding: 10px;
     background-color: #343437;
     color: #ececec;
+}
+
+.ai-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.chatbox{
+    font-size: 12px;
 }

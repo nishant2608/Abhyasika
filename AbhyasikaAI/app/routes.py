@@ -1,9 +1,13 @@
 from flask import Blueprint, request, jsonify
+from flask_cors import cross_origin,CORS
 from .auth import token_required
 from .service import process_content, process_quiz
 main = Blueprint('main', __name__)
 
+CORS(main,supports_credentials=True, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+
 @main.route('/post/content', methods=['POST'])
+@cross_origin(origin='*')
 @token_required 
 def post_content():
     data = request.get_json()
