@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, List, ListItem, ListItemText } from "@mui/material";
 
-const AiChat = () => {
+const AiChatBox = () => {
     const [messages, setMessages] = useState(() => {
         const savedMessages = sessionStorage.getItem('messages');
         return savedMessages ? JSON.parse(savedMessages) : [];
@@ -62,55 +62,30 @@ const AiChat = () => {
     };
 
     return (
-        // <div className='chatbox'>
-        <Box
-            sx={{ display: 'flex', flexDirection: 'column', height: '100%', fontSize: '12px' }}
-            role="presentation"
-        >
-            <div className='ai-header'>
-                <h2>AI Chatbox</h2>
-                <Button variant='text' color='secondary' onClick={() => setMessages([])}>Clear Chat</Button>
+        <div className="chatbox-container">
+        <header className="chatbox-header">
+          <h1>AI ChatBox</h1>
+          <Button variant='text' color='secondary' onClick={() => setMessages([])}>Clear Chat</Button>
+        </header>
+        <div className="chatbox-conversation">
+          {messages.map((msg, index) => (
+            <div key={index} className="chatbox-message">
+              {msg.content}
             </div>
-
-            <List sx={{ height:'70%', overflow: 'auto' }} >
-                {messages.map((msg, index) => (
-                    <ListItem key={index} sx={{ justifyContent: msg.role === 'system' ? 'flex-start' : 'flex-end' }}>
-                        <ListItemText
-                            primary={msg.content}
-                            sx={{
-                                textAlign: msg.role === 'system' ? 'left' : 'right',
-                                backgroundColor: msg.role === 'system' ? '#758194' : '#516263',
-                                borderRadius: '10px',
-                                padding: '10px',
-                                maxWidth: '80%'
-                            }}
-                            disableTypography={true}
-                        />
-                    </ListItem>
-                ))}
-            </List>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <TextField
-                    label="Type your message"
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={2}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSend}
-                    sx={{ marginLeft: '10px' }}
-                >
-                    Send
-                </Button>
-            </Box>
-        </Box>
-        // </div>
+          ))}
+        </div>
+        <div className="chatbox-input">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message..."
+            onSubmit={handleSend}
+          />
+          <button onClick={handleSend}>Send</button>
+        </div>
+      </div>
     );
 };
 
-export default AiChat;
+export default AiChatBox;

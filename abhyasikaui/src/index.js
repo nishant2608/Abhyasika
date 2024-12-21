@@ -19,6 +19,7 @@ import Register from './Register';
 import ProjectDetail from './ProjectDetails';
 import TopicList from './TopicList'
 import TopicView from './TopicView';
+import TopicViewAI from './TopicViewAI';
 
 
 const theme = createTheme({
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
   {
     path:"projects/:id/:cid/:tid",
     element:<TopicView />
+  },
+  {
+    path:"topic/:id/:cid/:tid",
+    element:<TopicViewAI />
   }
 ]);
 
@@ -66,7 +71,7 @@ root.render(
   <React.StrictMode>
     <div className='Main'>
       <ThemeProvider theme={theme}>
-      <AppBar position='static' color='primary' >
+      <AppBar position='sticky' color='primary' >
         <div className='AppBar'>
         <Typography variant='h4' className='Title'>
           Abhyasika

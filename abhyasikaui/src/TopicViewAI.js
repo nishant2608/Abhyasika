@@ -10,26 +10,32 @@ import FolderIcon from '@mui/icons-material/Folder';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ArticleIcon from '@mui/icons-material/Article';
-import { Drawer, Typography, IconButton } from '@mui/material';
+import { Drawer, Typography, IconButton, Button } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import './TopicView.css'
+import './TopicViewAI.css'
 import Paper from '@mui/material/Paper';
 import TextEditor from './TextEditor';
 import ChatIcon from '@mui/icons-material/Chat';
 import AiChat from './AiChat';
 import {Box} from '@mui/material';
+import AiChatBox from './AiChatBox';
 
-
-const TopicView = () => {
+const TopicViewAI = () => {
     const { id, cid, tid } = useParams();
     const [project, setProject] = useState(null);
     const [chapter, setChapter] = useState(null);
     const [topic, setTopic] = useState(null);
     const [openChapters, setOpenChapters] = useState({});
     const [isChatOpen, setIsChatOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleChat = () => {
         setIsChatOpen(!isChatOpen);
+    };
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
     };
 
     const getCookie = (name) => {
@@ -37,6 +43,19 @@ const TopicView = () => {
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     };
+
+    const calcWidth =(isChatOpen, isMenuOpen) => {
+        if(isChatOpen && isMenuOpen){
+            return '60%';
+        }
+        if(isChatOpen){
+            return '75%';
+        }
+        if(isMenuOpen){
+            return '85%';
+        }
+        return '100%';
+    }
 
     useEffect(() => {
         const jwtToken = getCookie('jwtToken');
@@ -83,11 +102,11 @@ const TopicView = () => {
         return <Typography variant="h6">Loading...</Typography>;
     }
 
-    return (
-        <div className='page'>
-            <Box sx={{ display: 'flex' }}>
-                <div className='menuList'>
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: '#131314', color: '#ececec' }}
+    return(
+        <div className='topicAIscreen'>
+            {isMenuOpen && 
+            <div style={{ width: isMenuOpen?'15%': '0%'}}>
+            <List sx={{ width: '100%', maxWidth: 360, bgcolor: '#131315', color: '#ececec', height: '100vh', overflow: 'auto',scrollbarWidth: 'none' }}
                         component="nav"
                         aria-labelledby="nested-list-subheader"
                         subheader={<ListSubheader component="div" id="nested-list-subheader" >
@@ -119,43 +138,20 @@ const TopicView = () => {
                         ))}
 
                     </List>
-                </div>
-                <div className='content' style={{flexGrow: 1, transition: 'margin-left 0.3s'}}>
-                    {/* <Paper elevation={3} sx={{ minHeight: '100%', backgroundColor: '#343437', color: '#ececec' }}>
-                        <div className='topic-content'>
-                            <div className='topic-name'>
-                                <Typography variant="h5" color='secondary'>{topic.name}</Typography>
-                            </div>
-                            <div className='information'>
-                                {topic.content}
-                            </div>
-                        </div>
-                    </Paper> */}
-                    <TextEditor topic={topic} pid={project.pid} cid={chapter.cid} />
-                </div>
-                <IconButton
-                    onClick={toggleChat}
-                    style={{ position: 'absolute', right: 0, top: 0 }}
-                >
-                    <ChatIcon />
-                </IconButton>
-
-                <Drawer
-                    anchor="right"
-                    open={isChatOpen}
-                    onClose={toggleChat}
-                    sx={{ width: isChatOpen ? 300 : 0 , flexShrink: 0 }}
-                >
-                    <AiChat />
-                </Drawer>
-
-
-            </Box>
+            </div> }
+        <div style={{ width: calcWidth(isChatOpen,isMenuOpen), backgroundColor: '#131314', overflow: 'auto', color: '#ececec',scrollbarWidth:'none' }}>
+            <Button onClick={toggleMenu}>Menu</Button>
+            <Button onClick={toggleChat}>Chat</Button>
+            <TextEditor topic={topic} pid={project.pid} cid={chapter.cid}/>
+        </div>
+        {isChatOpen &&
+        <div style={{ width: isChatOpen?'25%':'0%' }}>
+            <AiChat />
+        </div>
+        }
         </div>
     )
 
-
-
 }
 
-export default TopicView;
+export default TopicViewAI;
