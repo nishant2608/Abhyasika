@@ -106,6 +106,47 @@ public class ProjectService {
         return null; // or throw an exception, or return an empty list
     }
 
+    public List<QuizDTO> getQuizzesByChapterId(String projectId, String chapterId){
+        Optional<Project> project = projectRepository.findById(projectId);
+        List<QuizDTO> quizList = new ArrayList<>();
+        if (project.isPresent()) {
+            List<Chapter> chapters = project.get().getChapters();
+            for (Chapter chapter : chapters) {
+                if (chapter.getCid().equals(chapterId)) {
+                    List<Quiz> quizzes = chapter.getQuizzes();
+                    for(Quiz quiz : quizzes){
+                        quizList.add(new QuizDTO(quiz.getQid(),quiz.getName()));
+                    }
+                    return quizList;
+                }
+            }
+        }
+        return null;
+    }
+
+    public QuizQ getQuizById(String projectId, String chapterId, String quizId){
+        Optional<Project> project = projectRepository.findById(projectId);
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+        if (project.isPresent()) {
+            List<Chapter> chapters = project.get().getChapters();
+            for (Chapter chapter : chapters) {
+                if (chapter.getCid().equals(chapterId)) {
+                    List<Quiz> quizzes = chapter.getQuizzes();
+                    for(Quiz quiz : quizzes){
+                        if(quiz.getQid().equals(quizId)){
+                            List<Question> questions = quiz.getQuestions();
+                            for(Question question : questions) {
+                                questionDTOList.add(new QuestionDTO(question.getQuestion(), question.getOptions()));
+                            }
+                            return new QuizQ(quiz.getQid(),quiz.getName(),questionDTOList);
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public List<TopicDTO> getTopicList(String projectId, String chapterId){
         List<TopicDTO> topicList = new ArrayList<>();
         Optional<Project> project = projectRepository.findById(projectId);
@@ -195,6 +236,27 @@ public class ProjectService {
 
         }
         return null; // or throw an exception
+    }
+
+    public Quiz addQuizToChapter(String projectId, String chapterId, Quiz quiz) {
+        Optional<Project> project = projectRepository.findById(projectId);
+        quiz.setQid(String.valueOf(UUID.randomUUID()));
+        if (project.isPresent()) {
+            List<Chapter> chapters = project.get().getChapters();
+            if (chapters != null) {
+                for (Chapter chapter : chapters) {
+                    if (chapter.getCid().equals(chapterId)) {
+                        if (chapter.getQuizzes() == null) {
+                            chapter.setQuizzes(new ArrayList<>());
+                        }
+                        chapter.getQuizzes().add(quiz);
+                        projectRepository.save(project.get());
+                        return quiz;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public Topic updateTopicInChapter(String projectId, String chapterId, String topicId, Topic topic) {

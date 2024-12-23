@@ -58,10 +58,6 @@ const router = createBrowserRouter([
   },
   {
     path:"projects/:id/:cid/:tid",
-    element:<TopicView />
-  },
-  {
-    path:"topic/:id/:cid/:tid",
     element:<TopicViewAI />
   }
 ]);

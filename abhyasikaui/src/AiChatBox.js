@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, List, ListItem, ListItemText } from "@mui/material";
+import ReactMarkdown from 'react-markdown';
 
 const AiChatBox = () => {
     const [messages, setMessages] = useState(() => {
@@ -70,7 +71,7 @@ const AiChatBox = () => {
         <div className="chatbox-conversation">
           {messages.map((msg, index) => (
             <div key={index} className="chatbox-message">
-              {msg.content}
+             <ReactMarkdown> {(msg.content)} </ReactMarkdown>
             </div>
           ))}
         </div>

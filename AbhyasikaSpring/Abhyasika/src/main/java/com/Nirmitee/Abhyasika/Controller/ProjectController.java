@@ -79,6 +79,17 @@ public class ProjectController {
         return projectService.getTopicById(pid,cid,tid);
     }
 
+    @GetMapping("/project/{pid}/chapter/{cid}/quiz")
+    public List<QuizDTO> getAllQuizzes(@PathVariable String pid, @PathVariable String cid){
+        return projectService.getQuizzesByChapterId(pid,cid);
+    }
+
+    @GetMapping("/project/{pid}/chapter/{cid}/quiz/{qid}")
+    public QuizQ getQuizById(@PathVariable String pid, @PathVariable String cid, @PathVariable String qid){
+        return projectService.getQuizById(pid,cid,qid);
+    }
+
+
     @PostMapping("/project")
     public ResponseEntity<Project> createProject(@RequestBody Project project, HttpServletRequest request) {
         String authtoken = request.getHeader("Authorization");
@@ -108,6 +119,19 @@ public class ProjectController {
         Topic createdTopic = projectService.addTopicToChapter(projectId, chapterId, topic);
         if (createdTopic != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(createdTopic);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/project/{projectId}/chapters/{chapterId}/quiz")
+    public ResponseEntity<Quiz> addQuizToChapter(
+            @PathVariable String projectId,
+            @PathVariable String chapterId,
+            @RequestBody Quiz quiz) {
+        Quiz createdQuiz = projectService.addQuizToChapter(projectId, chapterId, quiz);
+        if (createdQuiz != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdQuiz);
         } else {
             return ResponseEntity.notFound().build();
         }

@@ -9,6 +9,7 @@ public class Chapter {
     private String cid;
     private String name;
     private List<Topic> topics;
+    private List<Quiz> quizzes;
 
     public String getCid() {
         return cid;
@@ -32,5 +33,13 @@ public class Chapter {
 
     public void setTopics(List<Topic> topics) {
         this.topics = topics;
+    }
+
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
     }
 }

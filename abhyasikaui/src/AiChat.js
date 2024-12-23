@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, List, ListItem, ListItemText } from "@mui/material";
+import ReactMarkdown from 'react-markdown';
 
 const AiChat = () => {
     const [messages, setMessages] = useState(() => {
@@ -76,7 +77,7 @@ const AiChat = () => {
                 {messages.map((msg, index) => (
                     <ListItem key={index} sx={{ justifyContent: msg.role === 'system' ? 'flex-start' : 'flex-end' }}>
                         <ListItemText
-                            primary={msg.content}
+                            primary={<ReactMarkdown>{msg.content}</ReactMarkdown>}
                             sx={{
                                 textAlign: msg.role === 'system' ? 'left' : 'right',
                                 backgroundColor: msg.role === 'system' ? '#758194' : '#516263',

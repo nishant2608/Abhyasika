@@ -10,13 +10,14 @@ import FolderIcon from '@mui/icons-material/Folder';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ArticleIcon from '@mui/icons-material/Article';
-import { Drawer, Typography, IconButton, Button } from '@mui/material';
+import { Drawer, Typography, IconButton, Button, Menu } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import './TopicView.css'
 import './TopicViewAI.css'
 import Paper from '@mui/material/Paper';
 import TextEditor from './TextEditor';
 import ChatIcon from '@mui/icons-material/Chat';
+import MenuIcon from '@mui/icons-material/Menu';
 import AiChat from './AiChat';
 import {Box} from '@mui/material';
 import AiChatBox from './AiChatBox';
@@ -139,9 +140,15 @@ const TopicViewAI = () => {
 
                     </List>
             </div> }
-        <div style={{ width: calcWidth(isChatOpen,isMenuOpen), backgroundColor: '#131314', overflow: 'auto', color: '#ececec',scrollbarWidth:'none' }}>
-            <Button onClick={toggleMenu}>Menu</Button>
-            <Button onClick={toggleChat}>Chat</Button>
+        <div style={{ width: calcWidth(isChatOpen,isMenuOpen), backgroundColor: '#343437', overflow: 'auto', color: '#ececec',scrollbarWidth:'none' }}>
+            <div className='contentHeader'>
+            <IconButton onClick={toggleMenu} color='primary'>
+                <MenuIcon />
+            </IconButton>
+            <IconButton onClick={toggleChat} color='primary'>
+                <ChatIcon />
+            </IconButton>
+            </div>
             <TextEditor topic={topic} pid={project.pid} cid={chapter.cid}/>
         </div>
         {isChatOpen &&
