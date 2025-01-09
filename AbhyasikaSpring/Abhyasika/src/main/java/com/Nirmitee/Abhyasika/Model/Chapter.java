@@ -1,15 +1,19 @@
 package com.Nirmitee.Abhyasika.Model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
+@Document(collection = "Chapters")
 public class Chapter {
+
     @Id
     private String cid;
     private String name;
-    private List<Topic> topics;
-    private List<Quiz> quizzes;
+    private String description;
+    private String pid;
+    private List<TopicDTO> topics;
 
     public String getCid() {
         return cid;
@@ -27,19 +31,27 @@ public class Chapter {
         this.name = name;
     }
 
-    public List<Topic> getTopics() {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public List<TopicDTO> getTopics() {
         return topics;
     }
 
-    public void setTopics(List<Topic> topics) {
+    public void setTopics(List<TopicDTO> topics) {
         this.topics = topics;
-    }
-
-    public List<Quiz> getQuizzes() {
-        return quizzes;
-    }
-
-    public void setQuizzes(List<Quiz> quizzes) {
-        this.quizzes = quizzes;
     }
 }

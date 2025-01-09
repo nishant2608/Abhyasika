@@ -1,16 +1,12 @@
-package com.Nirmitee.Abhyasika.Model;
+package com.Nirmitee.Abhyasika.ModelV1;
 
-public class ChapterDTO {
-    private String cid;
-    private String name;
+public class ProjectDTO {
     private String pid;
+    private String name;
 
-    public String getCid() {
-        return cid;
-    }
-
-    public void setCid(String cid) {
-        this.cid = cid;
+    public ProjectDTO(String pid, String name) {
+        this.pid = pid;
+        this.name = name;
     }
 
     public String getName() {

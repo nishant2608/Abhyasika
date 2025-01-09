@@ -1,7 +1,6 @@
 package com.Nirmitee.Abhyasika.Controller;
 
 import com.Nirmitee.Abhyasika.Model.AbhyasikaUser;
-import com.Nirmitee.Abhyasika.Service.CustomUserDetailsService;
 import com.Nirmitee.Abhyasika.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

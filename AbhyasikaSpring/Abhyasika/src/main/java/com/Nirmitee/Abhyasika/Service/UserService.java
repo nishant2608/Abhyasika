@@ -25,6 +25,7 @@ public class UserService {
     @Autowired
     private JWTService jwtService;
 
+
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     public AbhyasikaUser register(AbhyasikaUser user){
@@ -43,12 +44,18 @@ public class UserService {
     public AbhyasikaUser addProjectToUser(Project project, String token) {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
-        if(user.getProjectList()==null){
-            user.setProjectList(new ArrayList<>());
+        if(user.getOwnedProjects()==null){
+            user.setOwnedProjects(new ArrayList<>());
         }
         ProjectDTO projectDTO = new ProjectDTO(project.getPid(), project.getName());
-        user.getProjectList().add(projectDTO);
+        user.getOwnedProjects().add(projectDTO);
         userRepository.save(user);
         return user;
+    }
+
+    public List<ProjectDTO> getProjectsByUser(String token) {
+        String username = jwtService.extractUsername(token);
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        return user.getOwnedProjects();
     }
 }

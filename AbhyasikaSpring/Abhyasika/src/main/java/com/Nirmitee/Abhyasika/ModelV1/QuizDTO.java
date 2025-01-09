@@ -1,4 +1,4 @@
-package com.Nirmitee.Abhyasika.Model;
+package com.Nirmitee.Abhyasika.ModelV1;
 
 public class QuizDTO {
     private String qid;

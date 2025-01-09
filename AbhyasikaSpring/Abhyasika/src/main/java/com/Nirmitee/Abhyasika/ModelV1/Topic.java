@@ -1,14 +1,12 @@
-package com.Nirmitee.Abhyasika.Model;
+package com.Nirmitee.Abhyasika.ModelV1;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
 
-@Document(collection = "Topics")
 public class Topic {
+    @Id
     private String tid;
     private String name;
     private String content;
-    private String cid;
-    private String pid;
 
     public String getTid() {
         return tid;
@@ -32,21 +30,5 @@ public class Topic {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getCid() {
-        return cid;
-    }
-
-    public void setCid(String cid) {
-        this.cid = cid;
-    }
-
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
     }
 }
