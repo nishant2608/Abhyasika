@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { AppBar, Typography } from '@mui/material';
 import './index.css';
 import App from './App';
-import Login from './Login';
+import Login from './Pages/Login';
 import Projects from './ProjectList';
 import reportWebVitals from './reportWebVitals';
 import Avatar from '@mui/material/Avatar';
@@ -15,7 +15,7 @@ import {
   createRoutesFromElements,
   Route
 } from "react-router-dom";
-import Register from './Register';
+import Register from './Pages/Register';
 import ProjectDetail from './ProjectDetails';
 import TopicList from './TopicList'
 import TopicView from './TopicView';
@@ -65,8 +65,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div className='Main'>
-      <ThemeProvider theme={theme}>
+    <div className='Main' style={{height:'100vh'}}>
+      {/* <ThemeProvider theme={theme}>
       <AppBar position='sticky' color='primary' >
         <div className='AppBar'>
         <Typography variant='h4' className='Title'>
@@ -75,7 +75,7 @@ root.render(
         <Avatar className='right'>H</Avatar>
         </div>
       </AppBar>
-      </ThemeProvider>
+      </ThemeProvider> */}
       <RouterProvider router={router} />
     </div>
   </React.StrictMode>
