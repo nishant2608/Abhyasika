@@ -41,7 +41,7 @@ public class UserService {
         return "Failure";
     }
 
-    public AbhyasikaUser addProjectToUser(Project project, String token) {
+    public void addProjectToUser(Project project, String token) {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
         if(user.getOwnedProjects()==null){
@@ -50,12 +50,47 @@ public class UserService {
         ProjectDTO projectDTO = new ProjectDTO(project.getPid(), project.getName());
         user.getOwnedProjects().add(projectDTO);
         userRepository.save(user);
-        return user;
+    }
+
+    public void addViewProjectToUser(Project project, String username){
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        if(user.getViewedProjects()==null){
+            user.setViewedProjects(new ArrayList<>());
+        }
+        ProjectDTO projectDTO = new ProjectDTO(project.getPid(), project.getName());
+        user.getViewedProjects().add(projectDTO);
+        userRepository.save(user);
+    }
+
+    public void addEditProjectToUser(Project project, String username){
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        if(user.getEditedProjects()==null){
+            user.setEditedProjects(new ArrayList<>());
+        }
+        ProjectDTO projectDTO = new ProjectDTO(project.getPid(), project.getName());
+        user.getEditedProjects().add(projectDTO);
+        userRepository.save(user);
     }
 
     public List<ProjectDTO> getProjectsByUser(String token) {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
         return user.getOwnedProjects();
+    }
+
+    public List<ProjectDTO> getViewProjectsByUser(String token) {
+        String username = jwtService.extractUsername(token);
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        return user.getViewedProjects();
+    }
+
+    public List<ProjectDTO> getEditProjectsByUser(String token) {
+        String username = jwtService.extractUsername(token);
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        return user.getEditedProjects();
+    }
+
+    public AbhyasikaUser findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

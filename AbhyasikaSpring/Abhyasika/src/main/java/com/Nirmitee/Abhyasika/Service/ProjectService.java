@@ -23,6 +23,9 @@ public class ProjectService {
     @Autowired
     private JWTService jwtService;
 
+    @Autowired
+    private UserService userService;
+
 //    public List<Project> getAllProjects(){
 //       return projectRepository.findAll();
 //    }
@@ -42,6 +45,12 @@ public class ProjectService {
         AbhyasikaUser user = userRepository.findByUsername(username);
         UserDTO owner = new UserDTO( user.getName(),user.getUsername());
         project.setOwner(owner);
+
+
         return projectRepository.save(project);
+    }
+
+    public Project findById(String pid) {
+        return projectRepository.findByPid(pid);
     }
 }
