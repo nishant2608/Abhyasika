@@ -93,4 +93,20 @@ public class UserService {
     public AbhyasikaUser findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    public void removeViewProjectFromUser(Project existingProject, String username) {
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        if(user.getViewedProjects()!=null){
+            user.getViewedProjects().removeIf(p -> p.getPid().equals(existingProject.getPid()));
+            userRepository.save(user);
+        }
+    }
+
+    public void removeEditProjectFromUser(Project existingProject, String username) {
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        if(user.getEditedProjects()!=null){
+            user.getEditedProjects().removeIf(p -> p.getPid().equals(existingProject.getPid()));
+            userRepository.save(user);
+        }
+    }
 }

@@ -53,4 +53,8 @@ public class ProjectService {
     public Project findById(String pid) {
         return projectRepository.findByPid(pid);
     }
+
+    public Project updateProject(Project existingProject) {
+        return projectRepository.save(existingProject);
+    }
 }
