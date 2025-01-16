@@ -5,6 +5,12 @@ public class ChapterDTO {
     private String name;
     private String pid;
 
+    public ChapterDTO(String cid, String name, String pid) {
+        this.cid = cid;
+        this.name = name;
+        this.pid = pid;
+    }
+
     public String getCid() {
         return cid;
     }

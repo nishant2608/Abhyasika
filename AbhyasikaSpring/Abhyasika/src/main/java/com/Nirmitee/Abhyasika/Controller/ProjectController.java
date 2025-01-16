@@ -1,9 +1,8 @@
 package com.Nirmitee.Abhyasika.Controller;
 
-import com.Nirmitee.Abhyasika.Model.AbhyasikaUser;
-import com.Nirmitee.Abhyasika.Model.Project;
-import com.Nirmitee.Abhyasika.Model.ProjectDTO;
-import com.Nirmitee.Abhyasika.Model.UserDTO;
+import com.Nirmitee.Abhyasika.Exception.NoAccessException;
+import com.Nirmitee.Abhyasika.Exception.NotFound;
+import com.Nirmitee.Abhyasika.Model.*;
 import com.Nirmitee.Abhyasika.Service.JWTService;
 import com.Nirmitee.Abhyasika.Service.ProjectService;
 import com.Nirmitee.Abhyasika.Service.UserService;
@@ -57,37 +56,23 @@ public class ProjectController {
 
     @GetMapping("/user/project/{pid}")
     public ResponseEntity<?> getProjectById(HttpServletRequest request,@PathVariable String pid){
-        String authtoken = request.getHeader("Authorization");
-        String token = authtoken.substring(7);
-        String username = jwtService.extractUsername(token);
-        AbhyasikaUser user = userService.findByUsername(username);
 
-        Project project = projectService.findById(pid);
-        if (project == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project not found");
+        try{
+            String authtoken = request.getHeader("Authorization");
+            String token = authtoken.substring(7);
+            ProjectResponse projectResponse = projectService.getProjectById(token, pid);
+            if(projectResponse==null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project not found");
+            }
+            return ResponseEntity.ok(projectResponse);
+        }catch(NotFound e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch(NoAccessException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
 
-        boolean isOwner = false;
-        boolean hasViewPermission = false;
-        boolean hasEditPermission = false;
 
-        if (user.getOwnedProjects()!=null){
-            isOwner = user.getOwnedProjects().stream().anyMatch(p -> p.getPid().equals(pid));
-        }
 
-        if(user.getViewedProjects()!=null){
-            hasViewPermission = user.getViewedProjects().stream().anyMatch(p -> p.getPid().equals(pid));
-        }
-
-        if(user.getEditedProjects()!=null){
-            hasEditPermission = user.getEditedProjects().stream().anyMatch(p -> p.getPid().equals(pid));
-        }
-
-        if (isOwner || hasViewPermission || hasEditPermission) {
-            return ResponseEntity.ok(project);
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have permission to view this project");
-        }
     }
 
     @PostMapping("/user/project")
@@ -107,6 +92,38 @@ public class ProjectController {
             }
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProject);
+    }
+
+    @PutMapping("/user/project/{pid}")
+    public ResponseEntity<?> editProject(@RequestBody Project project, @PathVariable String pid, HttpServletRequest request) {
+        String authtoken = request.getHeader("Authorization");
+        String token = authtoken.substring(7);
+        try{
+            Project updatedProject = projectService.editProject(project, token, pid);
+            return ResponseEntity.ok(updatedProject);
+        }
+        catch (NotFound e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        catch (NoAccessException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/user/project/{pid}/updatePublic")
+    public ResponseEntity<?> updatePublic(@RequestBody Project project, @PathVariable String pid, HttpServletRequest request) {
+        String authtoken = request.getHeader("Authorization");
+        String token = authtoken.substring(7);
+        try{
+            Project updatedProject = projectService.updatePublic(project, token, pid);
+            return ResponseEntity.ok(updatedProject);
+        }
+        catch (NotFound e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        catch (NoAccessException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
     }
 
     @PutMapping("/user/project/{pid}/addViewers")
@@ -132,7 +149,7 @@ public class ProjectController {
         Project updatedProject = projectService.updateProject(existingProject);
         return ResponseEntity.ok(updatedProject);
     }
-
+// todo: editor viewer both locha
     @PutMapping("/user/project/{pid}/addEditors")
     public ResponseEntity<?> addEditors(@RequestBody List<UserDTO> editors, @PathVariable String pid, HttpServletRequest request) {
         String authtoken = request.getHeader("Authorization");
