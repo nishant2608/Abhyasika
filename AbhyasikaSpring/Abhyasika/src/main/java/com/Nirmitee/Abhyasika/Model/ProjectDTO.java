@@ -2,11 +2,9 @@ package com.Nirmitee.Abhyasika.Model;
 
 public class ProjectDTO {
     private String pid;
-    private String name;
 
-    public ProjectDTO(String pid, String name) {
+    public ProjectDTO(String pid) {
         this.pid = pid;
-        this.name = name;
     }
 
     public String getPid() {
@@ -17,11 +15,4 @@ public class ProjectDTO {
         this.pid = pid;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

@@ -2,7 +2,6 @@ package com.Nirmitee.Abhyasika.Model;
 
 public class TopicDTO {
     private String tid;
-    private String name;
     private String cid;
     private String pid;
 
@@ -14,13 +13,6 @@ public class TopicDTO {
         this.tid = tid;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getCid() {
         return cid;

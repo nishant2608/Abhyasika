@@ -47,7 +47,7 @@ public class ChapterService {
             Project project = projectResponse.getProject();
             if (projectResponse.isEditAccess()) {
                 chapter.setPid(pid);
-                ChapterDTO chapterDTO = new ChapterDTO(chapter.getCid(), chapter.getName(), pid);
+                ChapterDTO chapterDTO = new ChapterDTO(chapter.getCid(), pid);
                 projectService.addChapterToProject(pid, chapterDTO);
                 return chapterRepository.save(chapter);
             } else {

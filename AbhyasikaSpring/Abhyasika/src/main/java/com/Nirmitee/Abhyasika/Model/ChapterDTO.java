@@ -2,12 +2,10 @@ package com.Nirmitee.Abhyasika.Model;
 
 public class ChapterDTO {
     private String cid;
-    private String name;
     private String pid;
 
-    public ChapterDTO(String cid, String name, String pid) {
+    public ChapterDTO(String cid, String pid) {
         this.cid = cid;
-        this.name = name;
         this.pid = pid;
     }
 
@@ -19,13 +17,6 @@ public class ChapterDTO {
         this.cid = cid;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getPid() {
         return pid;

@@ -47,7 +47,7 @@ public class UserService {
         if(user.getOwnedProjects()==null){
             user.setOwnedProjects(new ArrayList<>());
         }
-        ProjectDTO projectDTO = new ProjectDTO(project.getPid(), project.getName());
+        ProjectDTO projectDTO = new ProjectDTO(project.getPid());
         user.getOwnedProjects().add(projectDTO);
         userRepository.save(user);
     }
@@ -57,7 +57,7 @@ public class UserService {
         if(user.getViewedProjects()==null){
             user.setViewedProjects(new ArrayList<>());
         }
-        ProjectDTO projectDTO = new ProjectDTO(project.getPid(), project.getName());
+        ProjectDTO projectDTO = new ProjectDTO(project.getPid());
         user.getViewedProjects().add(projectDTO);
         userRepository.save(user);
     }
@@ -67,7 +67,7 @@ public class UserService {
         if(user.getEditedProjects()==null){
             user.setEditedProjects(new ArrayList<>());
         }
-        ProjectDTO projectDTO = new ProjectDTO(project.getPid(), project.getName());
+        ProjectDTO projectDTO = new ProjectDTO(project.getPid());
         user.getEditedProjects().add(projectDTO);
         userRepository.save(user);
     }

@@ -33,7 +33,7 @@ public class ProjectService {
         List<Project> projectList = projectRepository.findByIsPublicTrue();
         List<ProjectDTO> dtoList = new ArrayList<>();
         for(Project project: projectList){
-            ProjectDTO projectDTO = new ProjectDTO(project.getPid(), project.getName());
+            ProjectDTO projectDTO = new ProjectDTO(project.getPid());
             dtoList.add(projectDTO);
         }
         return dtoList;
@@ -42,7 +42,7 @@ public class ProjectService {
     public Project createProject(Project project, String token) {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
-        UserDTO owner = new UserDTO( user.getName(),user.getUsername());
+        UserDTO owner = new UserDTO( user.getUid(),user.getUsername());
         project.setOwner(owner);
 
 
