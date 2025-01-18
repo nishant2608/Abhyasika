@@ -29,26 +29,26 @@ public class ProjectController {
     private JWTService jwtService;
 
     @GetMapping("/project/public")
-    public List<ProjectDTO> getAllPublicProjects(){
+    public List<Project> getAllPublicProjects(){
         return projectService.getAllPublicProjects();
     }
 
     @GetMapping("/user/ownedProjects")
-    public List<ProjectDTO> getOwnedProjectsByUser(HttpServletRequest request){
+    public List<Project> getOwnedProjectsByUser(HttpServletRequest request){
         String authtoken = request.getHeader("Authorization");
         String token = authtoken.substring(7);
         return userService.getProjectsByUser(token);
     }
 
     @GetMapping("/user/viewProjects")
-    public List<ProjectDTO> getViewProjectsByUser(HttpServletRequest request){
+    public List<Project> getViewProjectsByUser(HttpServletRequest request){
         String authtoken = request.getHeader("Authorization");
         String token = authtoken.substring(7);
         return userService.getViewProjectsByUser(token);
     }
 
     @GetMapping("/user/editProjects")
-    public List<ProjectDTO> getEditProjectsByUser(HttpServletRequest request){
+    public List<Project> getEditProjectsByUser(HttpServletRequest request){
         String authtoken = request.getHeader("Authorization");
         String token = authtoken.substring(7);
         return userService.getEditProjectsByUser(token);

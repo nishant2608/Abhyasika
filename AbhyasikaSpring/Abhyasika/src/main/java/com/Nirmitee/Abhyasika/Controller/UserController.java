@@ -1,12 +1,12 @@
 package com.Nirmitee.Abhyasika.Controller;
 
 import com.Nirmitee.Abhyasika.Model.AbhyasikaUser;
+import com.Nirmitee.Abhyasika.Model.UserQuery;
 import com.Nirmitee.Abhyasika.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -23,5 +23,19 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestBody AbhyasikaUser user){
         return userService.verify(user);
+    }
+
+    @GetMapping("/user/find/{username}")
+    public UserQuery getUser(@PathVariable String username){
+        return userService.findIndividual(username);
+    }
+
+    @GetMapping("/user/query")
+    public List<UserQuery> getUsers(@RequestParam(required = false) String username){
+        if (username != null && !username.isEmpty()) {
+            return userService.searchUsersByUsername(username);
+        } else {
+            return null;
+        }
     }
 }

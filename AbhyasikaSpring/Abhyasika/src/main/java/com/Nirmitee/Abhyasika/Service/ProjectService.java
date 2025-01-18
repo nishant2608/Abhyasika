@@ -29,14 +29,14 @@ public class ProjectService {
 //       return projectRepository.findAll();
 //    }
 
-    public List<ProjectDTO> getAllPublicProjects(){
+    public List<Project> getAllPublicProjects(){
         List<Project> projectList = projectRepository.findByIsPublicTrue();
-        List<ProjectDTO> dtoList = new ArrayList<>();
-        for(Project project: projectList){
-            ProjectDTO projectDTO = new ProjectDTO(project.getPid());
-            dtoList.add(projectDTO);
-        }
-        return dtoList;
+//        List<ProjectDTO> dtoList = new ArrayList<>();
+//        for(Project project: projectList){
+//            ProjectDTO projectDTO = new ProjectDTO(project.getPid());
+//            dtoList.add(projectDTO);
+//        }
+        return projectList;
     }
 
     public Project createProject(Project project, String token) {
@@ -141,6 +141,9 @@ public class ProjectService {
     public void addChapterToProject(String pid, ChapterDTO chapterDTO){
         Project project = projectRepository.findByPid(pid);
         List<ChapterDTO> chapters = project.getChapters();
+        if(chapters==null){
+            chapters = new ArrayList<>();
+        }
         chapters.add(chapterDTO);
         project.setChapters(chapters);
         projectRepository.save(project);

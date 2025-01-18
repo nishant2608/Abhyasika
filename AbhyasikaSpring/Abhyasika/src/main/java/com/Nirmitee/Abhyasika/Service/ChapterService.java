@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,14 +42,32 @@ public class ChapterService {
         }
     }
 
+    public List<Chapter> getAllChaptersForProject(String token, String pid) {
+        try {
+            ProjectResponse projectResponse = projectService.getProjectById(token, pid);
+            Project project = projectResponse.getProject();
+            List<ChapterDTO> dtoList = project.getChapters();
+            List<Chapter> chapterList = new ArrayList<>();
+            for (ChapterDTO chapterDTO : dtoList) {
+                Chapter chapter = chapterRepository.findByCid(chapterDTO.getCid());
+                chapterList.add(chapter);
+            }
+            return chapterList;
+        }
+        catch (NotFound e){
+            throw new NotFound("Project not found");
+        }
+        catch (NoAccessException e){
+            throw new NoAccessException("No Access");
+        }
+    }
+
     public Chapter createChapterForProject(String token, String pid, Chapter chapter) {
         try {
             ProjectResponse projectResponse = projectService.getProjectById(token, pid);
             Project project = projectResponse.getProject();
             if (projectResponse.isEditAccess()) {
                 chapter.setPid(pid);
-                ChapterDTO chapterDTO = new ChapterDTO(chapter.getCid(), pid);
-                projectService.addChapterToProject(pid, chapterDTO);
                 return chapterRepository.save(chapter);
             } else {
                 throw new NoAccessException("No Edit Access");
@@ -79,4 +98,15 @@ public class ChapterService {
         }
     }
 
+
+    public void addTopicToChapter(String cid, TopicDTO topicDTO) {
+        Chapter chapter = chapterRepository.findByCid(cid);
+        List<TopicDTO> topicDTOList = chapter.getTopics();
+        if(topicDTOList == null){
+            topicDTOList = new ArrayList<>();
+        }
+        topicDTOList.add(topicDTO);
+        chapter.setTopics(topicDTOList);
+        chapterRepository.save(chapter);
+    }
 }

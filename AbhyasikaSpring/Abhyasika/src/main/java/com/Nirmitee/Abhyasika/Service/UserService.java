@@ -3,6 +3,8 @@ package com.Nirmitee.Abhyasika.Service;
 import com.Nirmitee.Abhyasika.Model.AbhyasikaUser;
 import com.Nirmitee.Abhyasika.Model.Project;
 import com.Nirmitee.Abhyasika.Model.ProjectDTO;
+import com.Nirmitee.Abhyasika.Model.UserQuery;
+import com.Nirmitee.Abhyasika.Repository.ProjectRepository;
 import com.Nirmitee.Abhyasika.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +26,9 @@ public class UserService {
 
     @Autowired
     private JWTService jwtService;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
@@ -72,22 +77,40 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<ProjectDTO> getProjectsByUser(String token) {
+    public List<Project> getProjectsByUser(String token) {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
-        return user.getOwnedProjects();
+        List<ProjectDTO> projectDTOList = user.getOwnedProjects();
+        List<Project> projectList = new ArrayList<>();
+        for(ProjectDTO projectDTO: projectDTOList){
+            Project project = projectRepository.findByPid(projectDTO.getPid());
+            projectList.add(project);
+        }
+        return projectList;
     }
 
-    public List<ProjectDTO> getViewProjectsByUser(String token) {
+    public List<Project> getViewProjectsByUser(String token) {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
-        return user.getViewedProjects();
+        List<ProjectDTO> dtoList = user.getViewedProjects();
+        List<Project> projectList = new ArrayList<>();
+        for (ProjectDTO projectDTO: dtoList){
+            Project project = projectRepository.findByPid(projectDTO.getPid());
+            projectList.add(project);
+        }
+        return projectList;
     }
 
-    public List<ProjectDTO> getEditProjectsByUser(String token) {
+    public List<Project> getEditProjectsByUser(String token) {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
-        return user.getEditedProjects();
+        List<ProjectDTO> dtoList = user.getEditedProjects();
+        List<Project> projectList = new ArrayList<>();
+        for (ProjectDTO projectDTO: dtoList){
+            Project project = projectRepository.findByPid(projectDTO.getPid());
+            projectList.add(project);
+        }
+        return projectList;
     }
 
     public AbhyasikaUser findByUsername(String username) {
@@ -107,6 +130,25 @@ public class UserService {
         if(user.getEditedProjects()!=null){
             user.getEditedProjects().removeIf(p -> p.getPid().equals(existingProject.getPid()));
             userRepository.save(user);
+        }
+    }
+
+    public List<UserQuery> searchUsersByUsername(String username) {
+        List<AbhyasikaUser> UserList = userRepository.findByUsernameContaining(username);
+        List<UserQuery> UserQueryList = new ArrayList<>();
+        for(AbhyasikaUser user: UserList){
+            UserQueryList.add(new UserQuery(user.getUsername(),user.getName(),user.getEmail()));
+        }
+        return UserQueryList;
+    }
+
+    public UserQuery findIndividual(String username) {
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        if(user==null){
+            return null;
+        }
+        else{
+            return new UserQuery(user.getUsername(),user.getName(),user.getEmail());
         }
     }
 }
