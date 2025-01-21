@@ -1,9 +1,11 @@
 package com.Nirmitee.Abhyasika.Model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Topics")
 public class Topic {
+    @Id
     private String tid;
     private String name;
     private String content;
