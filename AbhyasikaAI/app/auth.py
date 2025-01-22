@@ -9,7 +9,7 @@ from flask import request, jsonify
 SECRET_KEY = base64.b64decode(os.getenv("JWT_SECRET_KEY"))
 
 client = MongoClient("mongodb://localhost:27017/")
-db = client.demoTopic
+db = client.testDEV
 users_collection = db.AbhyasikaUser
 
 def token_required(f):

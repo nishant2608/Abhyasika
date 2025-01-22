@@ -109,4 +109,18 @@ public class ChapterService {
         chapter.setTopics(topicDTOList);
         chapterRepository.save(chapter);
     }
+
+    public void addQuizToChapter(String cid, QuizDTO quizDTO) {
+        Chapter chapter = chapterRepository.findByCid(cid);
+        List<QuizDTO> quizDTOList = chapter.getQuizzes();
+        if(quizDTOList == null){
+            quizDTOList = new ArrayList<>();
+        }
+        quizDTOList.add(quizDTO);
+        chapter.setQuizzes(quizDTOList);
+        chapterRepository.save(chapter);
+    }
+
+
+
 }

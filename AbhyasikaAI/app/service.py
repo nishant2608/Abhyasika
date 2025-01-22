@@ -8,9 +8,12 @@ client = OpenAI(
 )
 
 class QuestionFormat(BaseModel):
-    question: str
-    options: list[str]
-    answer: str
+    questionString: str
+    option1: str
+    option2: str
+    option3: str
+    option4: str
+    correctOption: str
 
 class QuizFormat(BaseModel):
     questions: list[QuestionFormat]

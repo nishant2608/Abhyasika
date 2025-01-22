@@ -14,6 +14,7 @@ public class Chapter {
     private String description;
     private String pid;
     private List<TopicDTO> topics;
+    private List<QuizDTO> quizzes;
 
     public String getCid() {
         return cid;
@@ -53,5 +54,13 @@ public class Chapter {
 
     public void setTopics(List<TopicDTO> topics) {
         this.topics = topics;
+    }
+
+    public List<QuizDTO> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<QuizDTO> quizzes) {
+        this.quizzes = quizzes;
     }
 }
