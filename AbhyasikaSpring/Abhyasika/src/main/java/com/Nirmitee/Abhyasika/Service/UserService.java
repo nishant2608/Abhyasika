@@ -81,6 +81,9 @@ public class UserService {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
         List<ProjectDTO> projectDTOList = user.getOwnedProjects();
+        if(projectDTOList==null){
+            return new ArrayList<>();
+        }
         List<Project> projectList = new ArrayList<>();
         for(ProjectDTO projectDTO: projectDTOList){
             Project project = projectRepository.findByPid(projectDTO.getPid());
@@ -93,6 +96,9 @@ public class UserService {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
         List<ProjectDTO> dtoList = user.getViewedProjects();
+        if(dtoList==null){
+            return new ArrayList<>();
+        }
         List<Project> projectList = new ArrayList<>();
         for (ProjectDTO projectDTO: dtoList){
             Project project = projectRepository.findByPid(projectDTO.getPid());
@@ -105,6 +111,9 @@ public class UserService {
         String username = jwtService.extractUsername(token);
         AbhyasikaUser user = userRepository.findByUsername(username);
         List<ProjectDTO> dtoList = user.getEditedProjects();
+        if(dtoList==null){
+            return new ArrayList<>();
+        }
         List<Project> projectList = new ArrayList<>();
         for (ProjectDTO projectDTO: dtoList){
             Project project = projectRepository.findByPid(projectDTO.getPid());

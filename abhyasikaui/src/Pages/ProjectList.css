@@ -1,0 +1,112 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #ececec;
+}
+
+.Project-Page {
+    height: 100%;
+}
+
+.Abhyasika-Header {
+    height: 5%;
+    width: 100%;
+    background-color: aqua;
+}
+
+.Project-List-Container {
+    height: 95%;
+    width: 100%;
+    display: flex;
+    background-color: #262528;
+}
+
+.Project-List {
+    height: 100%;
+}
+
+.Chatbox-Window {
+    height: 100%;
+    background-color: #131314;
+}
+
+.Button-Window{
+    height: 100%;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #777373;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: #777373;
+}
+
+.Project-Filters{
+    display: flex;
+    width:100%;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height:10%;
+}
+
+.Filter-Button{
+    border-style: solid;
+    border-width: 2px;
+    border-color: #777373;
+    padding: 5px;
+    width:8%;
+    text-align: center; 
+}
+
+.Filter-Button:Hover{
+    background-color: #777373;
+}
+
+.Project-List-Header{
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    height:10%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+h1 {
+    margin-left: 3em;
+    width:20%;
+}
+
+.Search-Input{
+    height: 2em;
+    margin-left: 5em;
+    width:40%;
+}
+
+.Project-List-Table{
+    box-sizing: border-box;
+    margin-left:80px;
+    margin-right:80px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height:80%;
+}
+
+.css-y2ff7i-MuiPaper-root-MuiTableContainer-root{
+    background-color: #3b393e !important;
+}
+
+.css-1orzuox-MuiTableCell-root{
+    color: #ececec !important;
+}
+
+.css-1dc80h3-MuiTableCell-root{
+    color: #ececec !important;
+}
+
+.css-1a7iywq-MuiTableHead-root{
+    background-color: #504d55 !important;
+}
+
+tr.MuiTableRow-root.css-1xtozoh-MuiTableRow-root:hover {
+    background-color: #6a6375;
+}

@@ -4,7 +4,7 @@ import { AppBar, Typography } from '@mui/material';
 import './index.css';
 import App from './App';
 import Login from './Pages/Login';
-import Projects from './ProjectList';
+import Projects from './Pages/ProjectList';
 import reportWebVitals from './reportWebVitals';
 import Avatar from '@mui/material/Avatar';
 import { lime, purple } from '@mui/material/colors';
