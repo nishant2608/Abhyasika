@@ -3,7 +3,9 @@ package com.Nirmitee.Abhyasika.Controller;
 import com.Nirmitee.Abhyasika.Model.AbhyasikaUser;
 import com.Nirmitee.Abhyasika.Model.UserQuery;
 import com.Nirmitee.Abhyasika.Service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +39,12 @@ public class UserController {
         } else {
             return null;
         }
+    }
+
+    @GetMapping("/user/verify")
+    public ResponseEntity<?> verifyUser(HttpServletRequest request) {
+        String authtoken = request.getHeader("Authorization");
+        String token = authtoken.substring(7);
+        return ResponseEntity.ok(userService.verifyUser(token));
     }
 }

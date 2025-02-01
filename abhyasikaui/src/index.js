@@ -16,10 +16,11 @@ import {
   Route
 } from "react-router-dom";
 import Register from './Pages/Register';
-import ProjectDetail from './ProjectDetails';
+import ProjectDetails from './Pages/ProjectDetails';
 import TopicList from './TopicList'
 import TopicView from './TopicView';
 import TopicViewAI from './TopicViewAI';
+import ProjectSettings from './Pages/ProjectSettings';
 
 
 const theme = createTheme({
@@ -49,8 +50,12 @@ const router = createBrowserRouter([
     element: <Projects />
   },
   {
-    path: "projects/:id",
-    element: <ProjectDetail />
+    path: "projects/:pid",
+    element: <ProjectDetails  />
+  },
+  {
+    path: "projects/:pid/settings",
+    element: <ProjectSettings />
   },
   {
     path:"projects/:id/:cid",

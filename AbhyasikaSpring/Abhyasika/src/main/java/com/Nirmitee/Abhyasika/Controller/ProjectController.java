@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -144,6 +145,16 @@ public class ProjectController {
         }
         for (UserDTO viewer : viewers) {
             existingProject.getViewers().add(viewer);
+            if(existingProject.getEditors()!=null){
+                Iterator<UserDTO> iterator = existingProject.getEditors().iterator();
+                while (iterator.hasNext()) {
+                    UserDTO editor = iterator.next();
+                    if (editor.getUsername().equals(viewer.getUsername())) {
+                        iterator.remove();
+                        userService.removeEditProjectFromUser(existingProject, editor.getUsername());
+                    }
+                }
+            }
             userService.addViewProjectToUser(existingProject, viewer.getUsername());
         }
         Project updatedProject = projectService.updateProject(existingProject);
@@ -168,6 +179,16 @@ public class ProjectController {
         }
         for (UserDTO editor : editors) {
             existingProject.getEditors().add(editor);
+            if(existingProject.getViewers()!=null){
+                Iterator<UserDTO> iterator = existingProject.getViewers().iterator();
+                while (iterator.hasNext()) {
+                    UserDTO viewer = iterator.next();
+                    if (viewer.getUsername().equals(editor.getUsername())) {
+                        iterator.remove();
+                        userService.removeViewProjectFromUser(existingProject, viewer.getUsername());
+                    }
+                }
+            }
             userService.addEditProjectToUser(existingProject, editor.getUsername());
         }
         Project updatedProject = projectService.updateProject(existingProject);

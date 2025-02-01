@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProjectList.css';
 import Table from '@mui/material/Table';
+import Modal from '@mui/material/Modal';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Checkbox from '@mui/material/Checkbox';
+import { Box, TextField, Button } from '@mui/material';
 
 
 const Projects = () => {
@@ -15,7 +18,10 @@ const Projects = () => {
     const [projects, setProjects] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [isChatOpen, setIsChatOpen] = useState(false);
+    const [projectName, setProjectName] = useState('');
+    const [projectDescription, setProjectDescription] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [projectPublic, setProjectPublic] = useState(false);
     const navigate = useNavigate();
     const [hoveredButton, setHoveredButton] = useState(null);
 
@@ -77,6 +83,29 @@ const Projects = () => {
         setSearchTerm(e.target.value);
     };
 
+    const handleCreateProject = () => {
+        const jwtToken = getCookie('jwtToken');
+        const newProject = { name: projectName, description: projectDescription, public: projectPublic };
+        fetch('http://localhost:8080/api/v1/user/project', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${jwtToken}`
+            },
+            body: JSON.stringify(newProject),
+          })
+            .then(response => {
+              if (response.status === 201) {
+                setOpenModal(false);
+                fetchProjects();
+              } else {
+                console.error('Failed to create project');
+              }
+            });
+    };
+
+    
+
 
     return (
         <div className='Project-Page'>
@@ -111,10 +140,13 @@ const Projects = () => {
                             onChange={handleSearch}
                             className='Search-Input'
                         />
+                        <div className='Filter-Button' style={{cursor:'pointer', marginLeft:'3em'}}onClick={() => setOpenModal(true)}>
+                            Create
+                            </div>
                     </div>
                     <div className='Project-List-Table'>
                         <TableContainer component={Paper}>
-                            <Table>
+                            <Table >
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Index</TableCell>
@@ -145,6 +177,52 @@ const Projects = () => {
 
                     </div>
                 </div>
+                <Modal open={openModal} onClose={() => setOpenModal(false)}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 400,
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              p: 4
+            }}
+          >
+            <h2 style={{color:'black'}}>Create New Project</h2>
+            <TextField
+              label="Project Name"
+              variant="outlined"
+              fullWidth
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+              margin="normal"
+            />
+            <TextField
+              label="Description"
+              variant="outlined"
+              fullWidth
+              value={projectDescription}
+              onChange={(e) => setProjectDescription(e.target.value)}
+              margin="normal"
+            />
+            <Checkbox
+                checked={projectPublic}
+                onChange={(e) => setProjectPublic(e.target.checked)}
+                inputProps={{ 'aria-label': 'controlled' }}
+                />
+                <span style={{color:'black'}}>Public</span>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleCreateProject}
+              style={{ marginTop: 20, marginLeft: 30 }}
+            >
+              Save
+            </Button>
+          </Box>
+        </Modal>
             </div>
         </div>
     )

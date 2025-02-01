@@ -160,4 +160,13 @@ public class UserService {
             return new UserQuery(user.getUsername(),user.getName(),user.getEmail());
         }
     }
+
+    public UserQuery verifyUser(String token){
+        String username = jwtService.extractUsername(token);
+        AbhyasikaUser user = userRepository.findByUsername(username);
+        if(user==null){
+            return null;
+        }
+        return new UserQuery(user.getUsername(),user.getName(),user.getEmail());
+    }
 }
