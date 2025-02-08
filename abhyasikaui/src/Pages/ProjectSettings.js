@@ -6,6 +6,11 @@ import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import { Box, TextField, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import EditorModal from "../Components/EditorModal";
+import ViewerModal from "../Components/ViewerModal";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditorRemovalModal from "../Components/EditorRemovalModal";
+import ViewerRemovalModal from "../Components/ViewerRemovalModal";
 
 const ProjectSettings = () => {
     const {pid} = useParams();
@@ -15,6 +20,11 @@ const ProjectSettings = () => {
     const [projectName, setProjectName] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
     const [openPublicModal, setOpenPublicModal] = useState(false);
+    const [openEditorModal, setOpenEditorModal] = useState(false);
+    const [openViewerModal, setOpenViewerModal] = useState(false);
+    const [removingEditor, setRemovingEditor] =useState(null);
+    const [removingViewer, setRemovingViewer] = useState(null);
+    
 
 
     const handleChat = () => {
@@ -82,6 +92,8 @@ const ProjectSettings = () => {
         if (parts.length === 2) return parts.pop().split(';').shift();
     };
 
+    
+
     const fetchProject = () => {
         const jwtToken = getCookie('jwtToken');
         const url = 'http://localhost:8080/api/v1/user/project/' + pid;
@@ -96,6 +108,24 @@ const ProjectSettings = () => {
                 setProject(data.project);
             }).catch((error) => console.error('Error fetching project:', error));
     };
+
+    const handleEditorModal = () =>{
+        setOpenEditorModal(false);
+        fetchProject();
+    }
+
+    const handleViewerModal = ()=>{
+        setOpenViewerModal(false);
+        fetchProject();
+    }
+
+    const handleRemovalModal =() =>{
+        setRemovingEditor(null);
+        setRemovingViewer(null);
+        fetchProject();
+    }
+
+
 
 
     useEffect(() => {
@@ -135,17 +165,29 @@ const ProjectSettings = () => {
                             <div className="Project-Settings-Name-Header">Editors</div>
                             <div className="Project-Settings-Editors-Box">
                                 {project.editors? project.editors.map((editor,index)=>{
-                                    return <div className="editor-tile" key={index}>{editor.username}</div>
+                                    return <div className="editor-tile" key={index}>{editor.username}
+                                    <IconButton color="secondary" onClick={() => setRemovingEditor(editor)}>
+                                    <DeleteIcon />
+                                </IconButton></div>
                                 }):<></>}
                             </div>
+                            <IconButton color="primary" onClick={()=>{
+                                setOpenEditorModal(true);
+                            }}> <EditIcon /></IconButton>
                         </div>
                         <div className="Project-Settings-Viewers">
                             <div className="Project-Settings-Name-Header">Viewers</div>
                             <div className="Project-Settings-Viewers-Box">
                             {project.viewers? project.viewers.map((viewer,index)=>{
-                                    return <div className="editor-tile" key={index}>{viewer.username}</div>
+                                    return <div className="editor-tile" key={index}>{viewer.username}
+                                    <IconButton color="secondary" onClick={() => setRemovingViewer(viewer)}>
+                                    <DeleteIcon />
+                                </IconButton></div>
                                 }):<></>}
                             </div>
+                            <IconButton color="primary" onClick={()=>{
+                                setOpenViewerModal(true);
+                            }}> <EditIcon /></IconButton>
                         </div>
                     </div>: <h1>Loading...</h1>}
                 </div>
@@ -214,6 +256,29 @@ const ProjectSettings = () => {
                         <Button onClick={handleConfirm} color="primary" autoFocus>Confirm</Button>
                     </div>
                 </div>
+            </Modal>
+            <Modal
+                open={openEditorModal}
+                onClose={() => setOpenEditorModal(false)}
+                >
+                <EditorModal pid={pid} handleClose={handleEditorModal}/>
+                </Modal>
+
+            <Modal
+                open={openViewerModal}
+                onClose={()=> setOpenViewerModal(false)}
+            >
+                <ViewerModal pid={pid} handleClose={handleViewerModal} />
+            </Modal>
+            <Modal
+            open={removingEditor!==null}
+            onClose={()=>setRemovingEditor(null)}>
+                {removingEditor? <EditorRemovalModal pid={pid} editor={removingEditor} handleClose={handleRemovalModal}/>:<></>}
+            </Modal>
+            <Modal
+            open={removingViewer!==null}
+            onClose={()=>setRemovingViewer(null)}>
+                {removingViewer? <ViewerRemovalModal pid={pid} viewer={removingViewer} handleClose={handleRemovalModal}/>:<></>}
             </Modal>
         </div>
     )

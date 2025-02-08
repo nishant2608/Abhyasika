@@ -144,18 +144,22 @@ public class ProjectController {
             existingProject.setViewers(new ArrayList<>());
         }
         for (UserDTO viewer : viewers) {
-            existingProject.getViewers().add(viewer);
-            if(existingProject.getEditors()!=null){
-                Iterator<UserDTO> iterator = existingProject.getEditors().iterator();
-                while (iterator.hasNext()) {
-                    UserDTO editor = iterator.next();
-                    if (editor.getUsername().equals(viewer.getUsername())) {
-                        iterator.remove();
-                        userService.removeEditProjectFromUser(existingProject, editor.getUsername());
+            boolean viewerExists = existingProject.getViewers().stream()
+                    .anyMatch(e -> e.getUsername().equals(viewer.getUsername()));
+            if (!viewerExists) {
+                existingProject.getViewers().add(viewer);
+                if(existingProject.getEditors()!=null){
+                    Iterator<UserDTO> iterator = existingProject.getEditors().iterator();
+                    while (iterator.hasNext()) {
+                        UserDTO editor = iterator.next();
+                        if (editor.getUsername().equals(viewer.getUsername())) {
+                            iterator.remove();
+                            userService.removeEditProjectFromUser(existingProject, editor.getUsername());
+                        }
                     }
                 }
+                userService.addViewProjectToUser(existingProject, viewer.getUsername());
             }
-            userService.addViewProjectToUser(existingProject, viewer.getUsername());
         }
         Project updatedProject = projectService.updateProject(existingProject);
         return ResponseEntity.ok(updatedProject);
@@ -178,18 +182,22 @@ public class ProjectController {
             existingProject.setEditors(new ArrayList<>());
         }
         for (UserDTO editor : editors) {
-            existingProject.getEditors().add(editor);
-            if(existingProject.getViewers()!=null){
-                Iterator<UserDTO> iterator = existingProject.getViewers().iterator();
-                while (iterator.hasNext()) {
-                    UserDTO viewer = iterator.next();
-                    if (viewer.getUsername().equals(editor.getUsername())) {
-                        iterator.remove();
-                        userService.removeViewProjectFromUser(existingProject, viewer.getUsername());
+            boolean editorExists = existingProject.getEditors().stream()
+                    .anyMatch(e -> e.getUsername().equals(editor.getUsername()));
+            if (!editorExists) {
+                existingProject.getEditors().add(editor);
+                if(existingProject.getViewers()!=null){
+                    Iterator<UserDTO> iterator = existingProject.getViewers().iterator();
+                    while (iterator.hasNext()) {
+                        UserDTO viewer = iterator.next();
+                        if (viewer.getUsername().equals(editor.getUsername())) {
+                            iterator.remove();
+                            userService.removeViewProjectFromUser(existingProject, viewer.getUsername());
+                        }
                     }
                 }
+                userService.addEditProjectToUser(existingProject, editor.getUsername());
             }
-            userService.addEditProjectToUser(existingProject, editor.getUsername());
         }
         Project updatedProject = projectService.updateProject(existingProject);
         return ResponseEntity.ok(updatedProject);
