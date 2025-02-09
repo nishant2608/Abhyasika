@@ -11,6 +11,7 @@ import ViewerModal from "../Components/ViewerModal";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditorRemovalModal from "../Components/EditorRemovalModal";
 import ViewerRemovalModal from "../Components/ViewerRemovalModal";
+import AIChatWindow from '../Components/AIChatWindow';
 
 const ProjectSettings = () => {
     const {pid} = useParams();
@@ -196,7 +197,7 @@ const ProjectSettings = () => {
 
                         </div>
                         <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
-
+                            <AIChatWindow />
                         </div>
                     </div>
             </div>

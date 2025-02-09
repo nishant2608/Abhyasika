@@ -27,6 +27,7 @@ body {
 .Chatbox-Window {
     height: 100%;
     background-color: #131314;
+    display: flex;
 }
 
 .Button-Window{
@@ -111,3 +112,4 @@ h1 {
 tr.MuiTableRow-root.css-1xtozoh-MuiTableRow-root:hover {
     background-color: #6a6375;
 }
+

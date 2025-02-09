@@ -11,6 +11,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import { Box, TextField, Button } from '@mui/material';
+import AiChatBox from '../AiChatBox';
+import AiChatWindow from '../Components/AIChatWindow';
 
 
 const Projects = () => {
@@ -174,7 +176,7 @@ const Projects = () => {
 
                     </div>
                     <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
-
+                        <AiChatWindow />
                     </div>
                 </div>
                 <Modal open={openModal} onClose={() => setOpenModal(false)}>

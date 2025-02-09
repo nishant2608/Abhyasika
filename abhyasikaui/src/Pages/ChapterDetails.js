@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, TextField, Button } from '@mui/material';
+import AIChatWindow from '../Components/AIChatWindow';
 
 
 const ChapterDetails = () => {
@@ -190,7 +191,7 @@ const ChapterDetails = () => {
 
                     </div>
                     <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
-
+                        <AIChatWindow />
                     </div>
                 </div>
             </div>
