@@ -37,3 +37,59 @@
     overflow: auto;
     scrollbar-width: thin;
 }
+
+.Chapter-Content{
+    height:80%;
+    width:100%;
+    display:flex;
+    box-sizing: border-box;
+    padding: 10px;
+
+}
+
+
+.Chapter-Content-Topics{
+    height:100%;
+    width:50%;
+    border-right-style: solid;
+    border-right-width: 1px;
+}
+
+.Chapter-Content-Quizzes{
+    height:100%;
+    width:50%;
+}
+
+.Topic-List-Header-Div{
+    height:6%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Topic-List-Header{
+    font:2em;
+    margin-left:10px;
+}
+
+.Topic-List-Create{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #777373;
+    width:60px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#6a6375 ;
+    margin-right: 30px;
+}
+
+
+.Chapter-Content-Tables{
+    margin-right: 15px;
+    margin-left:15px;
+    height:94%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    box-sizing: border-box;
+    padding-top: 15px;
+}

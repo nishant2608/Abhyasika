@@ -156,8 +156,8 @@ const ProjectDetails = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {chapters.map((chapter, index) => (
-                                        <TableRow key={chapter.cid} onClick={() => navigate(`/projects/${project.pid}/chapters/${chapter.cid}`)}>
+                                    {chapters && chapters.map((chapter, index) => (
+                                        <TableRow key={chapter.cid} onClick={() => navigate(`/projects/${project.pid}/chapter/${chapter.cid}`)}>
                                             <TableCell>{index + 1}</TableCell>
                                             <TableCell>{chapter.name}</TableCell>
                                             <TableCell>{chapter.topics === null ? 0 : chapter.topics.length}</TableCell>
