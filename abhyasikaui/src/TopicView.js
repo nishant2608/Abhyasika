@@ -14,7 +14,7 @@ import { Drawer, Typography, IconButton } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import './TopicView.css'
 import Paper from '@mui/material/Paper';
-import TextEditor from './TextEditor';
+import TextEditor from './Pages/TextEditor';
 import ChatIcon from '@mui/icons-material/Chat';
 import AiChat from './AiChat';
 import {Box} from '@mui/material';

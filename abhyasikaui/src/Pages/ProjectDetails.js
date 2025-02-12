@@ -175,7 +175,7 @@ const ProjectDetails = () => {
 
                     </div>
                     <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
-                        <AIChatWindow />
+                    {isChatOpen &&<AIChatWindow />}
                     </div>
                 </div>
             </div>

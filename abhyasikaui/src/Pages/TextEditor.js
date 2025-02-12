@@ -23,8 +23,8 @@ const TextEditor = ({ topic, pid, cid }) => {
 
     const handleSave = () => {
         const jwtToken = getCookie('jwtToken');
-        const newTopic = { name: topic.name, tid: topic.tid, content: editorContent };
-        const url = 'http://localhost:8080/api/v1/project/' + pid + '/chapters/' + cid + '/topics/' + topic.tid;
+        const newTopic = { name: topic.name, content: editorContent };
+        const url = 'http://localhost:8080/api/t/project/' + pid + '/chapter/' + cid + '/topic/' + topic.tid;
 
         fetch(url, {
             method: 'PUT',
@@ -53,16 +53,18 @@ const TextEditor = ({ topic, pid, cid }) => {
     return (
         <div>
             {isEditing ? (
-                <div>
+                <div className='Topic-Content-Editor'>
+                    <div className='Topic-Content-Editor-Buttons'>
                     <Button onClick={handleSave}>Save</Button>
                     <Button onClick={handleCancel}>Cancel</Button>
+                    </div>
                     <ReactQuill
                         value={editorContent}
                         onChange={setEditorContent}
                     />
                 </div>
             ) : (
-                <div>
+                <div className='Topic-Content-Editor'>
                     <Button onClick={handleEdit}>Edit</Button>
                     <div dangerouslySetInnerHTML={{ __html: editorContent }} />
                 </div>

@@ -15,7 +15,7 @@ import Collapse from '@mui/material/Collapse';
 import './TopicView.css'
 import './TopicViewAI.css'
 import Paper from '@mui/material/Paper';
-import TextEditor from './TextEditor';
+import TextEditor from './Pages/TextEditor';
 import ChatIcon from '@mui/icons-material/Chat';
 import MenuIcon from '@mui/icons-material/Menu';
 import AiChat from './AiChat';

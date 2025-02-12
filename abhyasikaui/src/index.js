@@ -22,6 +22,7 @@ import TopicView from './TopicView';
 import TopicViewAI from './TopicViewAI';
 import ProjectSettings from './Pages/ProjectSettings';
 import ChapterDetails from './Pages/ChapterDetails';
+import TopicDetails from './Pages/TopicDetails';
 
 
 const theme = createTheme({
@@ -63,8 +64,8 @@ const router = createBrowserRouter([
     element:<ChapterDetails />
   },
   {
-    path:"projects/:id/:cid/:tid",
-    element:<TopicViewAI />
+    path:"projects/:pid/chapter/:cid/topic/:tid",
+    element:<TopicDetails />
   }
 ]);
 
