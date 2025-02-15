@@ -23,6 +23,8 @@ import TopicViewAI from './TopicViewAI';
 import ProjectSettings from './Pages/ProjectSettings';
 import ChapterDetails from './Pages/ChapterDetails';
 import TopicDetails from './Pages/TopicDetails';
+import QuizSet from './Pages/QuizSet';
+import QuizSolve from './Pages/QuizSolve';
 
 
 const theme = createTheme({
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
   {
     path:"projects/:pid/chapter/:cid/topic/:tid",
     element:<TopicDetails />
+  },
+  {
+    path:"projects/:pid/chapter/:cid/setQuiz",
+    element:<QuizSet />
+  },
+  {
+    path:"projects/:pid/chapter/:cid/quiz/:qid",
+    element:<QuizSolve />
   }
 ]);
 

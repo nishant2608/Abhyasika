@@ -4,6 +4,7 @@ import com.Nirmitee.Abhyasika.Exception.NoAccessException;
 import com.Nirmitee.Abhyasika.Exception.NotFound;
 import com.Nirmitee.Abhyasika.Model.AnsweredQuestion;
 import com.Nirmitee.Abhyasika.Model.Quiz;
+import com.Nirmitee.Abhyasika.Model.ScoreCard;
 import com.Nirmitee.Abhyasika.Service.QuizService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,11 @@ public class QuizController {
     public ResponseEntity<?> getScoreCardForQuiz(HttpServletRequest request, @PathVariable String pid, @PathVariable String cid, @PathVariable String qid) {
         try {
             String token = request.getHeader("Authorization").substring(7);
-            return ResponseEntity.ok(quizService.getScoreCardForUser(token, pid, cid, qid));
+            ScoreCard scoreCard = quizService.getScoreCardForUser(token, pid, cid, qid);
+            if(scoreCard==null){
+                return ResponseEntity.status(409).body("Scorecard not found");
+            }
+            return ResponseEntity.ok(scoreCard);
         } catch (NotFound e) {
             return ResponseEntity.status(404).body(e.getMessage());
         } catch (NoAccessException e) {

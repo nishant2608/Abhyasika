@@ -79,6 +79,9 @@ public class QuizService {
             if(chapter.getQuizzes().stream().anyMatch(quizDTO -> quizDTO.getQid().equals(qid))) {
                 Quiz quiz = quizRepository.findByQid(qid);
                 String username = jwtService.extractUsername(token);
+                if(quiz.getLeaderBoard()==null){
+                    return null;
+                }
                 return quiz.getLeaderBoard().stream().filter(scoreCard1 -> scoreCard1.getUsername().equals(username)).findFirst().orElse(null);
             }
             else{

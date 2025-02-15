@@ -80,6 +80,28 @@ const ChapterDetails = () => {
             }).catch((error) => console.error('Error fetching chapters:', error));
     };
 
+    const fetchScoreCard = (qid) => {
+        const jwtToken = getCookie('jwtToken');
+        const url = `http://localhost:8080/api/q/project/${pid}/chapter/${cid}/quiz/${qid}/scorecard`;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${jwtToken}`
+            }
+        })
+            .then((response) =>{ 
+                if(response.status === 409){
+                    navigate(`quiz/${qid}`)
+                }
+                return response.json()})
+            .then((data) => {
+                console.log(data);
+                if (data !== null) {
+                    navigate(`quiz/${qid}/review`)
+                }
+            }).catch((error) => console.error('Error fetching project:', error));
+    }
+
     const handleChat = () => {
         setIsChatOpen(!isChatOpen);
     }
@@ -158,7 +180,7 @@ const ChapterDetails = () => {
                                 <div className='Topic-List-Header'>
                                     Quizzes
                                 </div>
-                                {editAccess && <div className='Topic-List-Create'>
+                                {editAccess && <div className='Topic-List-Create' onClick={()=>navigate(`/projects/${project.pid}/chapter/${chapter.cid}/setQuiz`)}>
                                     Create
                                 </div>}
                             </div>
@@ -174,7 +196,7 @@ const ChapterDetails = () => {
                                         </TableHead>
                                         <TableBody>
                                             {quizzes && quizzes.map((quiz, index) => (
-                                                <TableRow key={quiz.qid} onClick={() => navigate(`/projects/${project.pid}/chapter/${chapter.cid}/quiz/${quiz.qid}`)}>
+                                                <TableRow key={quiz.qid} onClick={() => fetchScoreCard(quiz.qid)}>
                                                     <TableCell>{index + 1}</TableCell>
                                                     <TableCell>{quiz.name}</TableCell>
                                                 </TableRow>

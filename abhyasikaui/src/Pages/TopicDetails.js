@@ -89,7 +89,7 @@ const TopicDetails = () => {
                         <h1 className='Project-Name'>{project ? project.name : 'Loading...'} &gt;&gt; {chapter ? chapter.name : ''} &gt;&gt; {topic && topic.name}</h1>
                     </div>
                     <div className='Topic-Content'>
-                      {topic &&  <TextEditor topic={topic} pid={pid} cid={cid} />}
+                      {topic &&  <TextEditor topic={topic} pid={pid} cid={cid} editAccess={editAccess}/>}
                     </div>
                 </div>
                 <div className='Chatbox-Window' style={{ width: isChatOpen ? '25%' : '3%' }}>

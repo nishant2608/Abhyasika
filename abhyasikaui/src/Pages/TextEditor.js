@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import styles
 import { Button } from '@mui/material';
 
-const TextEditor = ({ topic, pid, cid }) => {
+const TextEditor = ({ topic, pid, cid, editAccess }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editorContent, setEditorContent] = useState(''); // Initial content
 
@@ -65,7 +65,7 @@ const TextEditor = ({ topic, pid, cid }) => {
                 </div>
             ) : (
                 <div className='Topic-Content-Editor'>
-                    <Button onClick={handleEdit}>Edit</Button>
+                    {editAccess &&<Button onClick={handleEdit}>Edit</Button>}
                     <div dangerouslySetInnerHTML={{ __html: editorContent }} />
                 </div>
             )}
