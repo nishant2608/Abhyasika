@@ -25,6 +25,7 @@ import ChapterDetails from './Pages/ChapterDetails';
 import TopicDetails from './Pages/TopicDetails';
 import QuizSet from './Pages/QuizSet';
 import QuizSolve from './Pages/QuizSolve';
+import QuizReview from './Pages/QuizReview';
 
 
 const theme = createTheme({
@@ -76,6 +77,9 @@ const router = createBrowserRouter([
   {
     path:"projects/:pid/chapter/:cid/quiz/:qid",
     element:<QuizSolve />
+  },{
+    path:"projects/:pid/chapter/:cid/quiz/:qid/review",
+    element:<QuizReview />
   }
 ]);
 

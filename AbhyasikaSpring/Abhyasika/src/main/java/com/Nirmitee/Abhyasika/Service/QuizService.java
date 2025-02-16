@@ -176,4 +176,20 @@ public class QuizService {
                 .questions(questionTestList)
                 .build();
     }
+
+    public Quiz getQuizByQidForReview(String token, String pid, String cid, String qid) {
+        try{
+            Chapter chapter = chapterService.getChapterForProject(token, pid, cid);
+            if(chapter.getQuizzes().stream().anyMatch(quizDTO -> quizDTO.getQid().equals(qid))){
+                return quizRepository.findByQid(qid);
+            }
+            else{
+                throw new NotFound("Quiz not found");
+            }
+        }catch(NotFound e) {
+            throw new NotFound("Chapter not found");
+        }catch(NoAccessException e){
+            throw new NoAccessException("No Access");
+        }
+    }
 }

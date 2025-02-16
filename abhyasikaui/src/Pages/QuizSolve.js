@@ -86,7 +86,7 @@ const QuizSolve = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                navigate(`projects/${pid}/chapter/${cid}/quiz/${qid}/review`)
+                navigate(`review`)
             }).catch((error) => console.error('Error fetching project:', error));
     };
 

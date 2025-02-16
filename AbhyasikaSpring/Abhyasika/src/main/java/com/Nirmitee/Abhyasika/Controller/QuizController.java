@@ -45,6 +45,18 @@ public class QuizController {
         }
     }
 
+    @GetMapping("/project/{pid}/chapter/{cid}/quiz/{qid}/review")
+    public ResponseEntity<?> getQuizForReview(HttpServletRequest request, @PathVariable String pid, @PathVariable String cid, @PathVariable String qid) {
+        try {
+            String token = request.getHeader("Authorization").substring(7);
+            return ResponseEntity.ok(quizService.getQuizByQidForReview(token, pid, cid, qid));
+        } catch (NotFound e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (NoAccessException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
+        }
+    }
+
     @GetMapping("/project/{pid}/chapter/{cid}/quiz/{qid}/scorecard")
     public ResponseEntity<?> getScoreCardForQuiz(HttpServletRequest request, @PathVariable String pid, @PathVariable String cid, @PathVariable String qid) {
         try {

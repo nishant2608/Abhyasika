@@ -24,8 +24,8 @@ def process_content(data):
         message = data.get("messages")
         chat_completion = client.chat.completions.create(
             messages=message,
-            model=data.get("model"),
-            temperature=data.get("temperature"),
+            model="gpt-4o-mini",
+            temperature=0.7,
         )
         return {"response":chat_completion.choices[0].message.content}
     else:
@@ -37,8 +37,8 @@ def process_quiz(data):
         quiz = data.get("messages")
         quiz_completion = client.beta.chat.completions.parse(
             messages=quiz,
-            model=data.get("model"),
-            temperature=data.get("temperature"),
+            model="gpt-4o",
+            temperature=0.7,
             response_format=QuizFormat,
         )
         return quiz_completion.choices[0].message.content
