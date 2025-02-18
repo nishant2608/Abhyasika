@@ -1,1 +1,9 @@
-Flask
+Flask==3.1.0
+Flask_Cors==5.0.0
+openai==1.63.2
+pydantic==2.10.6
+PyJWT==2.10.1
+PyJWT==2.10.1
+pymongo==4.11.1
+python-dotenv==1.0.1
+waitress==3.0.2
