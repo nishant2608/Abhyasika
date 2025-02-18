@@ -83,6 +83,7 @@ const AiChatWindow = () => {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type a message..."
             onSubmit={handleSend}
+            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
           />
           <button onClick={handleSend}>Send</button>
         </div>

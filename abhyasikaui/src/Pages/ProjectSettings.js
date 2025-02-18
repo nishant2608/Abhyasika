@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import './ProjectSettings.css';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
@@ -25,6 +25,7 @@ const ProjectSettings = () => {
     const [openViewerModal, setOpenViewerModal] = useState(false);
     const [removingEditor, setRemovingEditor] =useState(null);
     const [removingViewer, setRemovingViewer] = useState(null);
+    const navigate = useNavigate();
     
 
 
@@ -56,6 +57,7 @@ const ProjectSettings = () => {
                 setOpenPublicModal(false);
                 fetchProject();
             } else {
+                navigate('/login');
                 console.error('Failed to update project');
             }
         });
@@ -81,6 +83,7 @@ const ProjectSettings = () => {
                 setOpenEditModal(false);
                 fetchProject();
             } else {
+                navigate('/login');
                 console.error('Failed to update project');
             }
         });
@@ -104,7 +107,12 @@ const ProjectSettings = () => {
                 Authorization: `Bearer ${jwtToken}`
             }
         })
-            .then((response) => response.json())
+        .then((response) => {
+            if(response.status===401){
+                navigate('/login')}
+                else{
+                    return response.json()}
+                })
             .then((data) => {
                 setProject(data.project);
             }).catch((error) => console.error('Error fetching project:', error));
@@ -137,7 +145,13 @@ const ProjectSettings = () => {
     return (
         <div className='Project-Page'>
             <div className='Abhyasika-Header'>
-
+            <div className='Abhaysika-Header-Name'>Nirmitee | Abhyasika</div>
+                <div className='Abhyasika-Header-Buttons'>
+                    <div className='Abhyasika-Header-Home'><a href='http://localhost:3000/projects'>Home</a></div>
+                    <div className='Abhyasika-Header-Logout' onClick={()=>{
+                        document.cookie = 'jwtToken=; path=/;';
+                    }}><a href='http://localhost:3000/login'>Logout</a></div>
+                </div>
             </div>
             <div className='Project-List-Container'>
                 <div className='Project-Settings' style={{ width: isChatOpen ? '75%' : '97%', height: '100%' }}>
@@ -194,7 +208,7 @@ const ProjectSettings = () => {
                 </div>
                 <div className='Chatbox-Window' style={{ width: isChatOpen ? '25%' : '3%' }}>
                         <div className='Button-Window' onClick={handleChat} style={{ width: isChatOpen ? '12%' : '100%' }}>
-
+                            AI
                         </div>
                         <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
                         {isChatOpen &&<AIChatWindow />}

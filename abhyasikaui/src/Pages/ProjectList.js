@@ -11,12 +11,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import { Box, TextField, Button } from '@mui/material';
-import AiChatBox from '../AiChatBox';
 import AIChatWindow from '../Components/AIChatWindow';
 
 
 const Projects = () => {
-    const [filter, setFilter] = useState('my');
+    const [filter, setFilter] = useState('public');
     const [projects, setProjects] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [isChatOpen, setIsChatOpen] = useState(false);
@@ -38,7 +37,7 @@ const Projects = () => {
         const jwtToken = getCookie('jwtToken');
         let url = '';
         switch (filter) {
-            case 'all':
+            case 'public':
                 url = 'http://localhost:8080/api/v1/project/public';
                 break;
             case 'my':
@@ -60,7 +59,12 @@ const Projects = () => {
                 Authorization: `Bearer ${jwtToken}`
             }
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if(response.status===401){
+                    navigate('/login')}
+                    else{
+                        return response.json()}
+                    })
             .then((data) => setProjects(data))
             .catch((error) => console.error('Error fetching projects:', error));
     };
@@ -101,23 +105,28 @@ const Projects = () => {
                 setOpenModal(false);
                 fetchProjects();
               } else {
-                console.error('Failed to create project');
+                navigate('/login');
               }
             });
     };
 
-    
 
 
     return (
         <div className='Project-Page'>
             <div className='Abhyasika-Header'>
-
+                <div className='Abhaysika-Header-Name'>Nirmitee | Abhyasika</div>
+                <div className='Abhyasika-Header-Buttons'>
+                    <div className='Abhyasika-Header-Home'><a href='http://localhost:3000/projects'>Home</a></div>
+                    <div className='Abhyasika-Header-Logout' onClick={()=>{
+                        document.cookie = 'jwtToken=; path=/;';
+                    }}><a href='http://localhost:3000/login'>Logout</a></div>
+                </div>
             </div>
             <div className='Project-List-Container'>
                 <div className='Project-List' style={{ width: isChatOpen ? '75%' : '97%' }}>
                     <div className='Project-Filters'>
-                        {['my', 'view', 'edit', 'all'].map((btn) => (
+                        {['my', 'view', 'edit', 'public'].map((btn) => (
                             <div
                                 key={btn}
                                 className='Filter-Button'
@@ -173,7 +182,7 @@ const Projects = () => {
                 </div>
                 <div className='Chatbox-Window' style={{ width: isChatOpen ? '25%' : '3%' }}>
                     <div className='Button-Window' onClick={handleChat} style={{ width: isChatOpen ? '12%' : '100%' }}>
-
+                        AI
                     </div>
                     <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
                     {isChatOpen &&<AIChatWindow />}

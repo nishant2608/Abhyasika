@@ -42,7 +42,12 @@ const ChapterDetails = () => {
                 Authorization: `Bearer ${jwtToken}`
             }
         })
-            .then((response) => response.json())
+        .then((response) => {
+            if(response.status===401){
+                navigate('/login')}
+                else{
+                    return response.json()}
+                })
             .then((data) => {
                 setProject(data.project);
                 setEditAccess(data.editAccess);
@@ -58,7 +63,12 @@ const ChapterDetails = () => {
                 Authorization: `Bearer ${jwtToken}`
             }
         })
-            .then((response) => response.json())
+        .then((response) => {
+            if(response.status===401){
+                navigate('/login')}
+                else{
+                    return response.json()}
+                })
             .then((data) => {
                 setChapter(data);
                 setQuizzes(data.quizzes);
@@ -74,7 +84,12 @@ const ChapterDetails = () => {
                 Authorization: `Bearer ${jwtToken}`
             }
         })
-            .then((response) => response.json())
+        .then((response) => {
+            if(response.status===401){
+                navigate('/login')}
+                else{
+                    return response.json()}
+                })
             .then((data) => {
                 setTopics(data);
             }).catch((error) => console.error('Error fetching chapters:', error));
@@ -122,6 +137,7 @@ const ChapterDetails = () => {
                     setOpenModal(false);
                     fetchTopics();
                 } else {
+                    navigate('/login');
                     console.error('Failed to create project');
                 }
             });
@@ -136,7 +152,13 @@ const ChapterDetails = () => {
     return (
         <div className='Project-Page'>
             <div className='Abhyasika-Header'>
-
+            <div className='Abhaysika-Header-Name'>Nirmitee | Abhyasika</div>
+                <div className='Abhyasika-Header-Buttons'>
+                    <div className='Abhyasika-Header-Home'><a href='http://localhost:3000/projects'>Home</a></div>
+                    <div className='Abhyasika-Header-Logout' onClick={()=>{
+                        document.cookie = 'jwtToken=; path=/;';
+                    }}><a href='http://localhost:3000/login'>Logout</a></div>
+                </div>
             </div>
             <div className='Project-List-Container'>
                 <div className='Project-Details' style={{ width: isChatOpen ? '75%' : '97%' }}>
@@ -210,7 +232,7 @@ const ChapterDetails = () => {
                 </div>
                 <div className='Chatbox-Window' style={{ width: isChatOpen ? '25%' : '3%' }}>
                     <div className='Button-Window' onClick={handleChat} style={{ width: isChatOpen ? '12%' : '100%' }}>
-
+                        AI
                     </div>
                     <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
                     {isChatOpen &&<AIChatWindow />}

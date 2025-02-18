@@ -43,7 +43,12 @@ const TopicDetails = () => {
                 Authorization: `Bearer ${jwtToken}`
             }
         })
-            .then((response) => response.json())
+        .then((response) => {
+            if(response.status===401){
+                navigate('/login')}
+                else{
+                    return response.json()}
+                })
             .then((data) => {
                 setProject(data.project);
                 setEditAccess(data.editAccess);
@@ -59,7 +64,12 @@ const TopicDetails = () => {
                 Authorization: `Bearer ${jwtToken}`
             }
         })
-            .then((response) => response.json())
+        .then((response) => {
+            if(response.status===401){
+                navigate('/login')}
+                else{
+                    return response.json()}
+                })
             .then((data) => {
                 setChapter(data);
             }).catch((error) => console.error('Error fetching project:', error));
@@ -74,7 +84,12 @@ const TopicDetails = () => {
                 Authorization: `Bearer ${jwtToken}`
             }
         })
-            .then((response) => response.json())
+        .then((response) => {
+            if(response.status===401){
+                navigate('/login')}
+                else{
+                    return response.json()}
+                })
             .then((data) => {
                 setTopic(data);
             }).catch((error) => console.error('Error fetching chapters:', error));
@@ -93,7 +108,7 @@ const TopicDetails = () => {
         }
         messages.push({
             role: 'system',
-            content: `Generate a quiz consisting of ${totalQuestions <= 0 || totalQuestions > 20 ? 20 : totalQuestions} multiple choice questions on the given content.`
+            content: `Generate a quiz consisting of ${totalQuestions <= 0 || totalQuestions > 20 ? 20 : totalQuestions} multiple choice questions on the given content. Correct option should be the exact string match of the correct answer`
         });
         messages.push({
             role: 'user',
@@ -110,7 +125,12 @@ const TopicDetails = () => {
             },
             body: JSON.stringify(payload)
         })
-            .then((response) => response.json())
+        .then((response) => {
+            if(response.status===401){
+                navigate('/login')}
+                else{
+                    return response.json()}
+                })
             .then((data) => {
                 console.log(data);
                 const quiz = {
@@ -129,7 +149,12 @@ const TopicDetails = () => {
                     },
                     body: JSON.stringify(quiz)
                 })
-                    .then((response) => response.json())
+                .then((response) => {
+                    if(response.status===401){
+                        navigate('/login')}
+                        else{
+                            return response.json()}
+                        })
                     .then((data) => {
                         console.log(data);
                         setQid(data.qid);
@@ -161,12 +186,19 @@ const TopicDetails = () => {
     return (
         <div className="Project-Page">
             <div className='Abhyasika-Header'>
+            <div className='Abhaysika-Header-Name'>Nirmitee | Abhyasika</div>
+                <div className='Abhyasika-Header-Buttons'>
+                    <div className='Abhyasika-Header-Home'><a href='http://localhost:3000/projects'>Home</a></div>
+                    <div className='Abhyasika-Header-Logout' onClick={()=>{
+                        document.cookie = 'jwtToken=; path=/;';
+                    }}><a href='http://localhost:3000/login'>Logout</a></div>
+                </div>
             </div>
             <div className="Project-List-Container">
                 <div className='Project-Details' style={{ width: isChatOpen ? '75%' : '97%' }}>
                     <div className='Topic-Details-Header'>
                         <h1 className='Project-Name'>{project ? project.name : 'Loading...'} &gt;&gt; {chapter ? chapter.name : ''} &gt;&gt; {topic && topic.name}</h1>
-                        <div className='AI-Quiz-Button' onClick={() => setOpenModal(true)}>Quiz AI</div>
+                        {editAccess && <div className='AI-Quiz-Button' onClick={() => setOpenModal(true)}>Quiz AI</div>}
                     </div>
                     <div className='Topic-Content'>
                         {topic && <TextEditor topic={topic} pid={pid} cid={cid} editAccess={editAccess} />}
@@ -174,6 +206,7 @@ const TopicDetails = () => {
                 </div>
                 <div className='Chatbox-Window' style={{ width: isChatOpen ? '25%' : '3%' }}>
                     <div className='Button-Window' onClick={handleChat} style={{ width: isChatOpen ? '12%' : '100%' }}>
+                        AI
                     </div>
                     <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
                         {isChatOpen && <AIChatWindow />}

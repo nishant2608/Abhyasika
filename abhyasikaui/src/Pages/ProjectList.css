@@ -8,9 +8,31 @@ body {
 }
 
 .Abhyasika-Header {
+    box-sizing: border-box;
     height: 5%;
     width: 100%;
-    background-color: aqua;
+    background-color: rgb(49, 160, 160);
+    color: rgb(221, 221, 21);
+    font-size: 25px;
+    font-weight: bolder;
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Abhyasika-Header-Buttons{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 20%;
+}
+
+.Abhyasika-Header-Home{
+    cursor: pointer;
+}
+
+.Abhyasika-Header-Logout{
+    cursor: pointer;
 }
 
 .Project-List-Container {
@@ -32,12 +54,16 @@ body {
 
 .Button-Window{
     height: 100%;
+    display: flex;
     border-right-style: solid;
     border-right-width: 1px;
     border-right-color: #777373;
     border-left-style: solid;
     border-left-width: 1px;
     border-left-color: #777373;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .Project-Filters{

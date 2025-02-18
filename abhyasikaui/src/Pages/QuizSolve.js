@@ -35,7 +35,14 @@ const QuizSolve = () => {
                 Authorization: `Bearer ${jwtToken}`
             }
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 401) {
+                    navigate('/login')
+                }
+                else {
+                    return response.json()
+                }
+            })
             .then((data) => {
                 setQuiz(data);
                 const initialAnsweredQuestions = data.questions.map(question => ({
@@ -46,7 +53,7 @@ const QuizSolve = () => {
             }).catch((error) => console.error('Error fetching project:', error));
     }
 
-    
+
 
     useEffect(() => {
         fetchQuiz();
@@ -83,17 +90,32 @@ const QuizSolve = () => {
             },
             body: JSON.stringify(anseredQuestions)
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 401) {
+                    navigate('/login')
+                }
+                else {
+                    return response.json()
+                }
+            })
             .then((data) => {
                 console.log(data);
-                navigate(`review`)
+                if (data !== null) {
+                    navigate(`review`)
+                }
             }).catch((error) => console.error('Error fetching project:', error));
     };
 
     return (
         <div className="Project-Page">
             <div className='Abhyasika-Header'>
-
+                <div className='Abhaysika-Header-Name'>Nirmitee | Abhyasika</div>
+                <div className='Abhyasika-Header-Buttons'>
+                    <div className='Abhyasika-Header-Home'><a href='http://localhost:3000/projects'>Home</a></div>
+                    <div className='Abhyasika-Header-Logout' onClick={() => {
+                        document.cookie = 'jwtToken=; path=/;';
+                    }}><a href='http://localhost:3000/login'>Logout</a></div>
+                </div>
             </div>
             <div className="Project-List-Container">
                 {quiz && <div className='Project-Details' style={{ width: isChatOpen ? '75%' : '97%' }}>
@@ -162,16 +184,16 @@ const QuizSolve = () => {
                                                 {question.option4}
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <div className='QuizSet-Question-Delete'><IconButton color='secondary' onClick={() => {
-                                            const newAnsweredQuestions = [...anseredQuestions];
-                                            newAnsweredQuestions[index].chosenOption = null;
-                                            setAnsweredQuestions(newAnsweredQuestions);
-                                        }}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                        </div>
+                                        const newAnsweredQuestions = [...anseredQuestions];
+                                        newAnsweredQuestions[index].chosenOption = null;
+                                        setAnsweredQuestions(newAnsweredQuestions);
+                                    }}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -179,7 +201,7 @@ const QuizSolve = () => {
                 </div>}
                 <div className='Chatbox-Window' style={{ width: isChatOpen ? '25%' : '3%' }}>
                     <div className='Button-Window' onClick={handleChat} style={{ width: isChatOpen ? '12%' : '100%' }}>
-
+                        AI
                     </div>
                     <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
                         {isChatOpen && <AIChatWindow />}

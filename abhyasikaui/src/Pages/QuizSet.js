@@ -6,6 +6,9 @@ import AIChatWindow from '../Components/AIChatWindow';
 import './QuizSet.css';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Checkbox from '@mui/material/Checkbox';
+import Modal from '@mui/material/Modal';
+import { Box, TextField, Button, CircularProgress } from '@mui/material';
 
 
 const QuizSet = () => {
@@ -14,7 +17,11 @@ const QuizSet = () => {
     const [questions, setQuestions] = useState([{ questionString: '', option1: '', option2: '', option3: '', option4: '', correctOption: 'option1' }]);
     const [name, setName] = useState('');
     const [totalMinutes, setTotalMinutes] = useState(0);
+    const [totalQuestions, setTotalQuestions] = useState(0);
     const [negativeMarking, setNegativeMarking] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [aiContent, setAiContent] = useState('');
     const navigate = useNavigate();
 
     const handleChat = () => {
@@ -29,13 +36,13 @@ const QuizSet = () => {
     }
 
     const handleSave = () => {
-        
+
         const jwtToken = getCookie('jwtToken');
         const url = `http://localhost:8080/api/q/project/${pid}/chapter/${cid}/quiz`;
         let formattedQuestions = [];
-        for(let i = 0; i < questions.length; i++){
+        for (let i = 0; i < questions.length; i++) {
             let correctAnswer = '';
-            switch(questions[i].correctOption){
+            switch (questions[i].correctOption) {
                 case 'option1':
                     correctAnswer = questions[i].option1;
                     break;
@@ -76,24 +83,121 @@ const QuizSet = () => {
             },
             body: JSON.stringify(newQuiz)
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 401) {
+                    navigate('/login')
+                }
+                else {
+                    return response.json()
+                }
+            })
             .then((data) => {
                 console.log(data);
                 navigate(`/projects/${pid}/chapter/${cid}`);
             })
             .catch((error) => console.error('Error saving quiz:', error));
-    }
+    };
+
+    const handleCreateQuiz = () => {
+        setLoading(true);
+        const jwtToken = getCookie('jwtToken');
+        const url = 'http://localhost:5000/post/quiz';
+        let messages = [];
+        if (totalMinutes === 0 || totalMinutes > 180) {
+            setTotalMinutes(180);
+        }
+        if (totalQuestions === 0 || totalQuestions > 20) {
+            setTotalQuestions(20);
+        }
+        messages.push({
+            role: 'system',
+            content: `Generate a quiz consisting of ${totalQuestions <= 0 || totalQuestions > 20 ? 20 : totalQuestions} multiple choice questions on the given topic. Correct option should be the exact string match of the correct answer.`
+        });
+        messages.push({
+            role: 'user',
+            content: `${aiContent}`
+        });
+        const payload = {
+            messages: messages
+        };
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwtToken}`
+            },
+            body: JSON.stringify(payload)
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    navigate('/login')
+                }
+                else {
+                    return response.json()
+                }
+            })
+            .then((data) => {
+                console.log(data);
+                const quiz = {
+                    name: name,
+                    negativeMarking: negativeMarking,
+                    totalMinutes: totalMinutes,
+                    questions: data.questions
+                };
+                const jwtToken = getCookie('jwtToken');
+                const url = `http://localhost:8080/api/q/project/${pid}/chapter/${cid}/quiz`;
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${jwtToken}`
+                    },
+                    body: JSON.stringify(quiz)
+                })
+                    .then((response) => {
+                        if (response.status === 401) {
+                            navigate('/login')
+                        }
+                        else {
+                            return response.json()
+                        }
+                    })
+                    .then((data) => {
+                        console.log(data);
+                        setLoading(false);
+                        return data.qid;
+                    })
+                    .then((quizId) => navigate(`/projects/${pid}/chapter/${cid}/quiz/${quizId}`))
+                    .catch((error) => {
+                        console.error('Error fetching project:', error);
+                        setLoading(false);
+                    });
+            }).catch((error) => {
+                console.error('Error fetching project:', error);
+                setLoading(false);
+            });
+    };
 
     return (
         <div className="Project-Page">
             <div className='Abhyasika-Header'>
-
+                <div className='Abhaysika-Header-Name'>Nirmitee | Abhyasika</div>
+                <div className='Abhyasika-Header-Buttons'>
+                    <div className='Abhyasika-Header-Home'><a href='http://localhost:3000/projects'>Home</a></div>
+                    <div className='Abhyasika-Header-Logout' onClick={() => {
+                        document.cookie = 'jwtToken=; path=/;';
+                    }}><a href='http://localhost:3000/login'>Logout</a></div>
+                </div>
             </div>
             <div className="Project-List-Container">
                 <div className='Project-Details' style={{ width: isChatOpen ? '75%' : '97%' }}>
                     <div className='QuizSet-Header'>
                         <div className='Quiz-Create'>Create Quiz</div>
-                        <div className='Quiz-Save' onClick={handleSave}>Save</div>
+                        <div className='Quiz-Action-Buttons'>
+                            <div className='Quiz-Set-AI' onClick={() => setOpenModal(true)}>Quiz AI</div>
+                            <div className='Quiz-Save' onClick={handleSave}>Save</div>
+                        </div>
+                        
                     </div>
                     <div className='QuizSet-Info'>
                         <div className='QuizSet-Name'>
@@ -201,13 +305,81 @@ const QuizSet = () => {
                 </div>
                 <div className='Chatbox-Window' style={{ width: isChatOpen ? '25%' : '3%' }}>
                     <div className='Button-Window' onClick={handleChat} style={{ width: isChatOpen ? '12%' : '100%' }}>
-
+                        AI
                     </div>
                     <div className='Chat-Window' style={{ width: isChatOpen ? '88%' : '0%' }}>
                         {isChatOpen && <AIChatWindow />}
                     </div>
                 </div>
             </div>
+            <Modal open={openModal} onClose={() => setOpenModal(false)}>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        boxShadow: 24,
+                        p: 4
+                    }}
+                >
+                    <h2 style={{ color: 'black' }}>Generate Quiz With AI</h2>
+                    <TextField
+                        label="Quiz Name"
+                        variant="outlined"
+                        fullWidth
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        margin="normal"
+                    />
+                    <label style={{ color: 'black' }}>Total Questions</label>
+                    <input
+                        type='number'
+                        label="Total questions"
+                        variant="outlined"
+                        fullWidth
+                        value={totalQuestions}
+                        onChange={(e) => setTotalQuestions(e.target.value)}
+                        margin="normal"
+                    />
+                    <br />
+                    <label style={{ color: 'black' }}>Total Minutes</label>
+                    <input
+                        type='number'
+                        label="Total minutes"
+                        variant="outlined"
+                        fullWidth
+                        value={totalMinutes}
+                        onChange={(e) => setTotalMinutes(e.target.value)}
+                        margin="normal"
+                    />
+                    <br />
+                    <Checkbox
+                        checked={negativeMarking}
+                        onChange={(e) => setNegativeMarking(e.target.checked)}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                    <span style={{ color: 'black' }}>Negative Marking</span>
+                    <br />
+                    <label style={{ color: 'black' }}>Content/Topic</label>
+                    <textarea style={{width:'100%'}} value={aiContent} onChange={(e) => setAiContent(e.target.value)} required/>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleCreateQuiz}
+                        style={{ marginTop: 20, marginLeft: 30 }}
+                    >
+                        Save
+                    </Button>
+                </Box>
+            </Modal>
+            {loading && (
+                <div className="LoaderOverlay">
+                    <CircularProgress />
+                </div>
+            )}
         </div>
     )
 }
