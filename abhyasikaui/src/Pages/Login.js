@@ -37,6 +37,7 @@ const Login = () =>{
             .catch(error => {
                 console.error('Error during login:', error);
             });
+            
     };
 
     return(

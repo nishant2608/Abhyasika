@@ -136,10 +136,10 @@ const ProjectDetails = () => {
             <div className='Abhyasika-Header'>
             <div className='Abhaysika-Header-Name'>Nirmitee | Abhyasika</div>
                 <div className='Abhyasika-Header-Buttons'>
-                    <div className='Abhyasika-Header-Home'><a href='http://localhost:3000/projects'>Home</a></div>
+                    <div className='Abhyasika-Header-Home'><a href='/projects'>Home</a></div>
                     <div className='Abhyasika-Header-Logout' onClick={()=>{
                         document.cookie = 'jwtToken=; path=/;';
-                    }}><a href='http://localhost:3000/login'>Logout</a></div>
+                    }}><a href='/login'>Logout</a></div>
                 </div>
             </div>
             <div className='Project-List-Container'>

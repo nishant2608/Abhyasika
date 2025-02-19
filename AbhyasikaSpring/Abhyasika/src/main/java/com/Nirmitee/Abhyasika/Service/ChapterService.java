@@ -47,6 +47,9 @@ public class ChapterService {
             ProjectResponse projectResponse = projectService.getProjectById(token, pid);
             Project project = projectResponse.getProject();
             List<ChapterDTO> dtoList = project.getChapters();
+            if(dtoList == null){
+                return new ArrayList<>();
+            }
             List<Chapter> chapterList = new ArrayList<>();
             for (ChapterDTO chapterDTO : dtoList) {
                 Chapter chapter = chapterRepository.findByCid(chapterDTO.getCid());
