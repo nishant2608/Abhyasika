@@ -132,7 +132,6 @@ const TopicDetails = () => {
                     return response.json()}
                 })
             .then((data) => {
-                console.log(data);
                 const quiz = {
                     name: quizName,
                     negativeMarking: negativeMarking,
@@ -156,7 +155,6 @@ const TopicDetails = () => {
                             return response.json()}
                         })
                     .then((data) => {
-                        console.log(data);
                         setQid(data.qid);
                         setLoading(false);
                         return data.qid;
@@ -175,6 +173,10 @@ const TopicDetails = () => {
     const handleCloseModal = () => {
         handleCreateQuiz();
         setOpenModal(false);
+    };
+
+    const updateTopic = () => {
+        fetchTopic();
     };
 
     useEffect(() => {
@@ -201,7 +203,7 @@ const TopicDetails = () => {
                         {editAccess && <div className='AI-Quiz-Button' onClick={() => setOpenModal(true)}>Quiz AI</div>}
                     </div>
                     <div className='Topic-Content'>
-                        {topic && <TextEditor topic={topic} pid={pid} cid={cid} editAccess={editAccess} />}
+                        {topic && <TextEditor topic={topic} pid={pid} cid={cid} editAccess={editAccess} updateTopic={updateTopic} />}
                     </div>
                 </div>
                 <div className='Chatbox-Window' style={{ width: isChatOpen ? '25%' : '3%' }}>

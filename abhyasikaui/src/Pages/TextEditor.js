@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import styles
 import { Button } from '@mui/material';
 
-const TextEditor = ({ topic, pid, cid, editAccess }) => {
+const TextEditor = ({ topic, pid, cid, editAccess, updateTopic }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editorContent, setEditorContent] = useState(''); // Initial content
 
@@ -37,7 +37,7 @@ const TextEditor = ({ topic, pid, cid, editAccess }) => {
             .then(response => {
                 if (response.status === 200) {
                     setIsEditing(false);
-
+                    updateTopic();
                 } else {
                     // Handle error
                     console.error('Failed to create chapteer');
