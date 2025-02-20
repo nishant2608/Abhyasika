@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/q")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "true")
+@CrossOrigin(origins = "http://nirmitee.xyz", allowCredentials = "true", allowedHeaders = "true")
 public class QuizController {
     @Autowired
     private QuizService quizService;

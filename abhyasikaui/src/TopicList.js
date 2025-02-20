@@ -28,7 +28,7 @@ const TopicList = () => {
 
   const fetchTopics = () => {
     const jwtToken = getCookie('jwtToken');
-    const url = 'http://localhost:8080/api/v1/project/' + id;
+    const url = 'http://43.204.91.223:8080/api/v1/project/' + id;
     fetch(url, {
       method: 'GET',
       headers: {
@@ -53,7 +53,7 @@ const TopicList = () => {
   const handleCreateTopic = () => {
     const jwtToken = getCookie('jwtToken');
     const newTopic = { name: topicName };
-    const url = 'http://localhost:8080/api/v1/project/' + id + '/chapters/' + cid + '/topics';
+    const url = 'http://43.204.91.223:8080/api/v1/project/' + id + '/chapters/' + cid + '/topics';
 
     fetch(url, {
       method: 'POST',

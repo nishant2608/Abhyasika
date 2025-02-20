@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .csrf(customizer -> customizer.disable())
                 .cors(customizer -> customizer.configurationSource(request -> {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                    corsConfig.setAllowedOrigins(List.of("http://localhost:3000")); // Adjust as needed
+                    corsConfig.setAllowedOrigins(List.of("http://nirmitee.xyz")); // Adjust as needed
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type"));
                     corsConfig.setAllowCredentials(true);

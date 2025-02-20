@@ -24,7 +24,7 @@ const TextEditor = ({ topic, pid, cid, editAccess, updateTopic }) => {
     const handleSave = () => {
         const jwtToken = getCookie('jwtToken');
         const newTopic = { name: topic.name, content: editorContent };
-        const url = 'http://localhost:8080/api/t/project/' + pid + '/chapter/' + cid + '/topic/' + topic.tid;
+        const url = 'http://43.204.91.223:8080/api/t/project/' + pid + '/chapter/' + cid + '/topic/' + topic.tid;
 
         fetch(url, {
             method: 'PUT',

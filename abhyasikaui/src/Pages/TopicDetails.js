@@ -36,7 +36,7 @@ const TopicDetails = () => {
 
     const fetchProject = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/v1/user/project/' + pid;
+        const url = 'http://43.204.91.223:8080/api/v1/user/project/' + pid;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -57,7 +57,7 @@ const TopicDetails = () => {
 
     const fetchChapter = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/c/project/' + pid + '/chapter/' + cid;
+        const url = 'http://43.204.91.223:8080/api/c/project/' + pid + '/chapter/' + cid;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -77,7 +77,7 @@ const TopicDetails = () => {
 
     const fetchTopic = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/t/project/' + pid + '/chapter/' + cid + '/topic/' + tid;
+        const url = 'http://43.204.91.223:8080/api/t/project/' + pid + '/chapter/' + cid + '/topic/' + tid;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -98,7 +98,7 @@ const TopicDetails = () => {
     const handleCreateQuiz = () => {
         setLoading(true);
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:5000/post/quiz';
+        const url = 'http://43.204.91.223:5000/post/quiz';
         let messages = [];
         if (totalMinutes === 0 || totalMinutes > 180) {
             setTotalMinutes(180);
@@ -139,7 +139,7 @@ const TopicDetails = () => {
                     questions: data.questions
                 };
                 const jwtToken = getCookie('jwtToken');
-                const url = `http://localhost:8080/api/q/project/${pid}/chapter/${cid}/quiz`;
+                const url = `http://43.204.91.223:8080/api/q/project/${pid}/chapter/${cid}/quiz`;
                 fetch(url, {
                     method: 'POST',
                     headers: {

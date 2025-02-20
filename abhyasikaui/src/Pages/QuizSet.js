@@ -38,7 +38,7 @@ const QuizSet = () => {
     const handleSave = () => {
 
         const jwtToken = getCookie('jwtToken');
-        const url = `http://localhost:8080/api/q/project/${pid}/chapter/${cid}/quiz`;
+        const url = `http://43.204.91.223:8080/api/q/project/${pid}/chapter/${cid}/quiz`;
         let formattedQuestions = [];
         for (let i = 0; i < questions.length; i++) {
             let correctAnswer = '';
@@ -101,7 +101,7 @@ const QuizSet = () => {
     const handleCreateQuiz = () => {
         setLoading(true);
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:5000/post/quiz';
+        const url = 'http://43.204.91.223:5000/post/quiz';
         let messages = [];
         if (totalMinutes === 0 || totalMinutes > 180) {
             setTotalMinutes(180);
@@ -145,7 +145,7 @@ const QuizSet = () => {
                     questions: data.questions
                 };
                 const jwtToken = getCookie('jwtToken');
-                const url = `http://localhost:8080/api/q/project/${pid}/chapter/${cid}/quiz`;
+                const url = `http://43.204.91.223:8080/api/q/project/${pid}/chapter/${cid}/quiz`;
                 fetch(url, {
                     method: 'POST',
                     headers: {

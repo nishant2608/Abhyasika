@@ -40,7 +40,7 @@ const ProjectDetails = () => {
 
     const getUser = () => {
         const jwtToken = getCookie('jwtToken');
-        fetch('http://localhost:8080/user/verify', {
+        fetch('http://43.204.91.223:8080/user/verify', {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${jwtToken}`
@@ -60,7 +60,7 @@ const ProjectDetails = () => {
 
     const fetchProject = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/v1/user/project/' + pid;
+        const url = 'http://43.204.91.223:8080/api/v1/user/project/' + pid;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -81,7 +81,7 @@ const ProjectDetails = () => {
 
     const fetchChapters = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/c/project/' + pid + '/chapter';
+        const url = 'http://43.204.91.223:8080/api/c/project/' + pid + '/chapter';
         fetch(url, {
             method: 'GET',
             headers: {
@@ -106,7 +106,7 @@ const ProjectDetails = () => {
     const handleCreateChapter = () => {
         const jwtToken = getCookie('jwtToken');
         const newChapter = { name: chapterName, description: chapterDescription };
-        fetch('http://localhost:8080/api/c/project/' + project.pid + '/chapter', {
+        fetch('http://43.204.91.223:8080/api/c/project/' + project.pid + '/chapter', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

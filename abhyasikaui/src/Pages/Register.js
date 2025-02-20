@@ -23,7 +23,7 @@ const Register = () => {
         else{
             setPassflag(false);
         }
-        fetch('http://localhost:8080/register', {
+        fetch('http://43.204.91.223:8080/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, username, school, password, email })

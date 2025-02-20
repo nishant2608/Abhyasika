@@ -41,7 +41,7 @@ const ProjectSettings = () => {
 
     const handleConfirm = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/v1/user/project/' + pid + '/updatePublic';
+        const url = 'http://43.204.91.223:8080/api/v1/user/project/' + pid + '/updatePublic';
         const updatedProject = {
             public: !project.public
         };
@@ -66,7 +66,7 @@ const ProjectSettings = () => {
 
     const handleUpdateProject = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/v1/user/project/' + pid;
+        const url = 'http://43.204.91.223:8080/api/v1/user/project/' + pid;
         const updatedProject = {
             name: projectName,
             description: projectDescription
@@ -100,7 +100,7 @@ const ProjectSettings = () => {
 
     const fetchProject = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/v1/user/project/' + pid;
+        const url = 'http://43.204.91.223:8080/api/v1/user/project/' + pid;
         fetch(url, {
             method: 'GET',
             headers: {

@@ -35,7 +35,7 @@ const ChapterDetails = () => {
 
     const fetchProject = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/v1/user/project/' + pid;
+        const url = 'http://43.204.91.223:8080/api/v1/user/project/' + pid;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -56,7 +56,7 @@ const ChapterDetails = () => {
 
     const fetchChapter = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/c/project/' + pid + '/chapter/' + cid;
+        const url = 'http://43.204.91.223:8080/api/c/project/' + pid + '/chapter/' + cid;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -77,7 +77,7 @@ const ChapterDetails = () => {
 
     const fetchTopics = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/t/project/' + pid + '/chapter/' + cid + '/topic';
+        const url = 'http://43.204.91.223:8080/api/t/project/' + pid + '/chapter/' + cid + '/topic';
         fetch(url, {
             method: 'GET',
             headers: {
@@ -97,7 +97,7 @@ const ChapterDetails = () => {
 
     const fetchScoreCard = (qid) => {
         const jwtToken = getCookie('jwtToken');
-        const url = `http://localhost:8080/api/q/project/${pid}/chapter/${cid}/quiz/${qid}/scorecard`;
+        const url = `http://43.204.91.223:8080/api/q/project/${pid}/chapter/${cid}/quiz/${qid}/scorecard`;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -124,7 +124,7 @@ const ChapterDetails = () => {
     const handleCreateTopic = () => {
         const jwtToken = getCookie('jwtToken');
         const newTopic = { name: topicName };
-        fetch('http://localhost:8080/api/t/project/' + project.pid + '/chapter/' + chapter.cid + '/topic', {
+        fetch('http://43.204.91.223:8080/api/t/project/' + project.pid + '/chapter/' + chapter.cid + '/topic', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

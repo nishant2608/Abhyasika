@@ -39,7 +39,7 @@ const AiChatWindow = () => {
         try {
             const jwtToken = getCookie('jwtToken');
             console.log(jwtToken);
-            const response = await fetch('http://localhost:5000/post/content', {
+            const response = await fetch('http://43.204.91.223:5000/post/content', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ const Projects = () => {
 
   const fetchProjects = (query = '') => {
     const jwtToken = getCookie('jwtToken');
-    fetch(`http://localhost:8080/api/v1/list/project${query ? `?name=${query}` : ''}`, {
+    fetch(`http://43.204.91.223:8080/api/v1/list/project${query ? `?name=${query}` : ''}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${jwtToken}`
@@ -56,7 +56,7 @@ const Projects = () => {
     const jwtToken = getCookie('jwtToken');
     const newProject = { name: projectName };
 
-    fetch('http://localhost:8080/api/v1/project', {
+    fetch('http://43.204.91.223:8080/api/v1/project', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

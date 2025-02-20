@@ -13,7 +13,7 @@ const Login = () =>{
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle login logic here
-        fetch('http://localhost:8080/login', {
+        fetch('http://43.204.91.223:8080/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })

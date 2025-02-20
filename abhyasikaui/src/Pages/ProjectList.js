@@ -38,19 +38,19 @@ const Projects = () => {
         let url = '';
         switch (filter) {
             case 'public':
-                url = 'http://localhost:8080/api/v1/project/public';
+                url = 'http://43.204.91.223:8080/api/v1/project/public';
                 break;
             case 'my':
-                url = 'http://localhost:8080/api/v1/user/ownedProjects';
+                url = 'http://43.204.91.223:8080/api/v1/user/ownedProjects';
                 break;
             case 'view':
-                url = 'http://localhost:8080/api/v1/user/viewProjects';
+                url = 'http://43.204.91.223:8080/api/v1/user/viewProjects';
                 break;
             case 'edit':
-                url = 'http://localhost:8080/api/v1/user/editProjects';
+                url = 'http://43.204.91.223:8080/api/v1/user/editProjects';
                 break;
             default:
-                url = 'http://localhost:8080/api/v1/project/public';
+                url = 'http://43.204.91.223:8080/api/v1/project/public';
                 break;
         }
         fetch(url, {
@@ -92,7 +92,7 @@ const Projects = () => {
     const handleCreateProject = () => {
         const jwtToken = getCookie('jwtToken');
         const newProject = { name: projectName, description: projectDescription, public: projectPublic };
-        fetch('http://localhost:8080/api/v1/user/project', {
+        fetch('http://43.204.91.223:8080/api/v1/user/project', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

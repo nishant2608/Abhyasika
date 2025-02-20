@@ -29,7 +29,7 @@ const QuizReview = () => {
 
     const fetchQuiz = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = `http://localhost:8080/api/q/project/${pid}/chapter/${cid}/quiz/${qid}/review`;
+        const url = `http://43.204.91.223:8080/api/q/project/${pid}/chapter/${cid}/quiz/${qid}/review`;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -49,7 +49,7 @@ const QuizReview = () => {
 
     const fetchScoreCard = () => {
         const jwtToken = getCookie('jwtToken');
-        const url = `http://localhost:8080/api/q/project/${pid}/chapter/${cid}/quiz/${qid}/scorecard`;
+        const url = `http://43.204.91.223:8080/api/q/project/${pid}/chapter/${cid}/quiz/${qid}/scorecard`;
         fetch(url, {
             method: 'GET',
             headers: {

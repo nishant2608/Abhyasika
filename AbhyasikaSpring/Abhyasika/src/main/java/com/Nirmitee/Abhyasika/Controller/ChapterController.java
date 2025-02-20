@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/c")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "true")
+@CrossOrigin(origins = "http://nirmitee.xyz", allowCredentials = "true", allowedHeaders = "true")
 public class ChapterController {
     @Autowired
     private ChapterService chapterService;

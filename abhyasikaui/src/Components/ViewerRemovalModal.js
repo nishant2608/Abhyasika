@@ -13,7 +13,7 @@ const ViewerRemovalModal =({pid,viewer,handleClose})=>{
         let removalArray = '[' + JSON.stringify(viewer) + ']';
         console.log(removalArray);
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/v1/user/project/' + pid + '/removeViewers';
+        const url = 'http://43.204.91.223:8080/api/v1/user/project/' + pid + '/removeViewers';
         fetch(url, {
             method: 'PUT',
             headers: {

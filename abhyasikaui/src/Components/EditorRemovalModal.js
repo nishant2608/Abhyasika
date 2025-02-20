@@ -13,7 +13,7 @@ const EditorRemovalModal =({pid,editor,handleClose})=>{
         let removalArray = '[' + JSON.stringify(editor) + ']';
         console.log(removalArray);
         const jwtToken = getCookie('jwtToken');
-        const url = 'http://localhost:8080/api/v1/user/project/' + pid + '/removeEditors';
+        const url = 'http://43.204.91.223:8080/api/v1/user/project/' + pid + '/removeEditors';
         fetch(url, {
             method: 'PUT',
             headers: {
